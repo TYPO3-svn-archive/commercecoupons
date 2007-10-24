@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;txcommerceM1_coupons&quot;</description>
+		<fileId>EXT:commerce_coupons/mod_coupons/locallang.xml</fileId>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">Coupons</label>
+			<label index="function1">Function #1</label>
+			<label index="function2">Function #2</label>
+			<label index="function3">Function #3</label>
+			<label index="link_new_coupon">Create new coupon</label>
+			<label index="link_new_article">Related articles for coupons</label>
+			<label index="link_csv_import">CSV Import for coupons</label>
+			<label index="error_no_cat">No category selected</label>
+			<label index="couponArticleIdLabel">uid of coupon article to include</label>
+			<label index="error_wrong_couponArticleId">uid of coupon article is invalid</label>
+			<label index="send">Send</label>
+			<label index="error_columns">Wrong number of columns</label>
+			<label index="error_limit_start">Minimum purchase order value wrong syntax. Minimum purchase order value not registered</label>
+			<label index="error_limit_end">Maximum coupon value wrong syntax. Max. coupon value not registered </label>
+			<label index="error_starttime">Starting date invalid date. Starting date not registered</label>
+			<label index="error_endtime">Final date invalid date. Final date not registered </label>
+			<label index="error_double_code_1">Error (Doubled Code)!</label>
+			<label index="error_double_code_2"> Code </label>
+			<label index="error_double_code_3"> in Category </label>
+			<label index="error_double_code_4"> already available</label>
+			<label index="error_syntax_1">Error (Syntax)!</label>
+			<label index="error_syntax_2"> Line was not registered</label>
+			<label index="error_upload">Error File Upload!</label>
+			<label index="csv_file">CSV-File:</label>
+			<label index="line">Line</label>
+			<label index="create_successful">Coupon successfully provides!</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="title">Gutscheine</label>
+			<label index="function1">Function #1</label>
+			<label index="function2">Function #2</label>
+			<label index="function3">Function #3</label>
+			<label index="link_new_coupon">Neuer Gutschein anlegen</label>
+			<label index="link_new_article">Artikel einem Gutschein zuweisen</label>
+			<label index="link_csv_import">CSV Import für Gutscheine</label>
+			<label index="error_no_cat">Zum anlegen von Gutscheinen zuerst Kategorie wählen</label>
+			<label index="couponArticleIdLabel">uid des Couponartikels, der zugewiesen wird</label>
+			<label index="error_wrong_couponArticleId">uid des Couponartikels ist ungültig</label>
+			<label index="send">abschicken</label>
+			<label index="error_columns">Falsche Spaltenanzahl</label>
+			<label index="error_limit_start">Mindestbestellwert falsche Syntax. Mindestbestellwert nicht eingetragen</label>
+			<label index="error_limit_end">Maximaler Gutscheinwert falsche Syntax. Max. Gutscheinwert nicht eingetragen</label>
+			<label index="error_starttime">Startdatum ungültiges Datum. Startdatum nicht eingetragen</label>
+			<label index="error_endtime">Enddatum ungültiges Datum. Enddatum nicht eingetragen</label>
+			<label index="error_double_code_1">Fehler (Code-Doppelt)! </label>
+			<label index="error_double_code_2"> Code </label>
+			<label index="error_double_code_3"> ist schon in der Kategorie </label>
+			<label index="error_double_code_4"> vorhanden</label>
+			<label index="error_syntax_1">Fehler (Syntax)!</label>
+			<label index="error_syntax_2"> Zeile wurde nicht eingetragen</label>
+			<label index="error_upload">Fehler beim hochladen der Datei!</label>
+			<label index="csv_file">CSV-Datei:</label>
+			<label index="line">Zeile</label>
+			<label index="create_successful">Gutschein erfolgreich erstellt!</label>
+			 
+		</languageKey>
+	</data>
+</T3locallang>

@@ -1,0 +1,6 @@
+plugin.tx_commercecoupons_pi1 {
+	useCouponPid = 106
+	basketPid = 19
+	priceSearchPid = 42
+	templateFile = fileadmin/templates/couponfile.tmpl
+}

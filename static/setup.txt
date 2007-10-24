@@ -1,0 +1,83 @@
+######## Note:
+# couponNormalType is the Id of the normal coupons, which are money or percent
+# couponRelatedType is the Id of coupons that have an related article
+# couponBuyType is meant as Id if you have coupons that can be bought by customer, not in use here at the moment
+################################################################################################################
+
+###############################################
+### configuring the Coupon Types for the couponform
+#############################################
+plugin.tx_commercecoupons_pi1 {
+  couponNormalType = 4
+  couponRelatedType = 5
+  couponBuyType = 6
+    templateFile = {$plugin.tx_commercecoupons_pi1.templateFile}
+	useCouponPid = {$plugin.tx_commercecoupons_pi1.useCouponPid}
+	basketPid = {$plugin.tx_commercecoupons_pi1.basketPid}
+	errorPID = {$plugin.tx_commercecoupons_pi1.errorPID}
+
+	showCouponFormText = RECORDS
+	showCouponFormText {
+	tables = tt_content
+	source = {$plugin.tx_commercecoupons_pi1.showCouponFormTextUID}
+	}
+	
+	articleAdd = RECORDS
+	articleAdd {
+	tables = tt_content
+	source = {$plugin.tx_commercecoupons_pi1.articleAddUID}
+	}
+	
+	errorText = RECORDS
+	errorText {
+	tables = tt_content
+	source = {$plugin.tx_commercecoupons_pi1.errorTextUID}
+	}
+	
+	couponWithoutArticleText = RECORDS
+	couponWithoutArticleText {
+	tables = tt_content
+	source = {$plugin.tx_commercecoupons_pi1.couponWithoutArticleTextUID}
+	}
+    
+    _CSS_DEFAULT_STYLE (
+    
+    
+    h3.tx-commercecoupons-pi1-header-errorlink {
+    	color:red;
+    	}
+    div.tx-commercecoupons-pi1-errorlink {
+    	
+    	}
+    	
+    div.tx-commercecoupons-pi1-backlink {
+    	}
+    
+    )	
+	
+	
+}
+
+###############################################
+### configuring the Coupon Types for the basket
+#############################################
+plugin.tx_commerce_pi2{
+    couponNormalType = 4
+    couponRelatedType = 5
+    couponBuyType = 6
+    couponBasketTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInBasket.tpl
+}
+
+
+###############################################
+### configuring the Coupon Types for the checkout
+#############################################
+plugin.tx_commerce_pi3{
+    couponNormalType = 4
+    couponRelatedType = 5
+    couponBuyType = 6
+    couponArticleId = 50
+    couponListingTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInListing.tpl
+    couponFinishTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInFinish.tpl
+    couponMailsTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInMails.tpl
+}

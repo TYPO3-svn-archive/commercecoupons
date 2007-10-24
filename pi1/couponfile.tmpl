@@ -1,0 +1,173 @@
+﻿<!-- ###COUPON_FORM### begin-->
+###SHOWCOUPONFORMTEXT###
+
+<div class="contentElement">
+	<form name="couponform" action="/###URL###" method="post">
+	<input type="hidden" name="tx_commercecoupons_pi1[step]" value="addCoupon"/>
+	<input type="text" name="tx_commercecoupons_pi1[code]" class="inputBorder" />
+	###SUBMIT_CODE###	
+	</form>
+</div>
+<!-- ###COUPON_FORM### end-->
+
+
+<!-- ###COUPON_ERROR### begin-->
+###COUPON_ERROR_TEXT###
+<h3 class="tx-commercecoupons-pi1-header-errorlink">###HEADER###</h3>
+<div class="tx-commercecoupons-pi1-errorlink"> ###ERRORLINK###</div>
+<div class="tx-commercecoupons-pi1-backlink"> ###BACKLINK###</div>
+<!-- ###COUPON_ERROR### end-->
+
+<!-- ###COUPON_ERROR_OLD### begin-->
+<h3 class="tx-commercecoupons-pi1-header-errorlink">###HEADER###</h3>
+<div class="tx-commercecoupons-pi1-errorlink"> ###ERRORLINK###</div>
+<div class="tx-commercecoupons-pi1-backlink"> ###BACKLINK###</div>
+<!-- ###COUPON_ERROR_OLD### end-->
+
+
+
+
+<!-- ###COUPON_FORM_OLD### begin-->
+<div class="contentElement">
+	<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Willkommen bei </h1></div>
+	<p class="bodytext">Sie können nun die Buchung für bequem online durchführen. Geben Sie hierzu einfach Ihre Gutscheinnummer und Ihren Gutscheincode ein und folgen den Schritten des Buchungsprozesses.</p>
+	<p class="bodytext">&nbsp;</p>
+	<p class="bodytext">Wie es funktioniert, erfahren Sie <a href="index.php?id=26" target="_self">hier</a>.
+
+</div>
+
+<div class="contentElement">
+	<h1>Gutschein Einl&ouml;sen</h1>
+
+	<form name="couponform" action="###URL###">
+	<input type="hidden" name="id" value="16" />
+	<input type="hidden" name="type" value="0" />
+	<input type="hidden" name="tx_commercecoupons_pi1[step]" value="addCoupon" />
+
+
+	<table border="0">
+		<tr>
+			<td><p>Geben Sie bitte hier Ihre Gutscheinnummer ein.</p>###ERROR_MESSAGE###</td>
+			<td><img src="fileadmin/templates/coupon.jpg" /></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="tx_commercecoupons_pi1[code]" /></td><td><input type="submit" value="Gutschein Abrufen" /></td>
+		</tr>
+	</table>
+	</form>
+
+</div>
+
+<div class="contentElement">
+	<p class="bodytext">Sollten Sie Fragen zum Gutschein oder zur Buchung Ihres Erlebnisses haben, wenden Sie sich an unser ServiceCenter: Tel 0700-13243546. Fusce pretium, erat in congue pretium, ipsum ligula aliquet nisl, quis vulputate erat eros ut arcu. Fusce pretium, ipsum malesuada condimentum vulputate.</p>
+</div>
+
+<!-- ###COUPON_FORM_OLD### end-->
+
+ 
+
+
+
+
+
+
+
+
+<!-- ###MAIN_COUPON_WITH_ARTICLES### -->
+
+<div class="contentElement">
+	<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Ihr Gutschein</h1></div>
+	<p class="bodytext">Sie haben Ihren Gutschein f&uuml;r folgendes abgerufen:</p>
+	<p class="bodytext"><b>###ARTICLE_TITLE###</b></p>
+
+	<br />
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Gutschein buchen</h1></div>
+		<table border="0">
+			<tr>
+				<td rowspan="2">Sie k&ouml;nnen nun direkt Ihre Buchung durchf&uuml;hren. Phasellus dui massa, pretium nonummy, pellentesque ut, aliquam in, pede. Phasellus eleifend, sapien vitae tempus congue, massa ante dictum odio, at iaculis nisl sem id massa. Phasellus elit mauris, malesuada ut, venenatis at, auctor id, eros. Phasellus erat eros, fringilla ac, mattis sed, iaculis vel, nunc.</td>
+				<td><img src="fileadmin/templates/coupon.jpg" /></td>
+			</tr>
+			<tr>
+				<td><a href="###USE_COUPONLINK###">&gt;&gt;&gt; Buchen</A></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Sie wollen eine Versicherung abschlie&szlig;en oder ein zus&auml;tzliches Erlebnis buchen?</h1></div>
+		<p class="bodytext">Legen Sie hierf&uuml;r Ihren Gutschein in den Warenkorb. Phasellus dui massa, pretium nonummy, pellentesque ut, aliquam in, pede. Phasellus eleifend, sapien vitae tempus congue, massa ante dictum odio, at iaculis nisl sem id massa.  <a href="###GO_SHOPPING###">&gt;&gt;&gt; Zum Warenkorb</a></p>
+	</div>
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Sie wollen Ihren Gutschein umtauschen?</h1></div>
+		<p class="bodytext">Wenn Sie ihren Erlebnisgutschein. Ut consectetuer, nunc at porttitor venenatis, ligula massa tristique tortor, eget volutpat tellus tortor ac arcu. Ut elit lectus, blandit at, consectetuer vitae, tincidunt eget, sapien. Ut facilisis, mi et tincidunt bibendum, ante arcu egestas diam, vitae egestas est quam sit amet orci. <a href="###DELETE_ARTICLE###">&gt;&gt;&gt; Gutschein umtauschen</a></p>
+	</div>
+
+</div>
+
+<!-- ###MAIN_COUPON_WITH_ARTICLES### -->
+
+
+
+
+
+
+
+
+<!-- ###MAIN_COUPON_WITHOUT_ARTICLES### begin-->
+###MAIN_COUPON_WITHOUT_ARTICLES_TEXT###<br />
+###LINKTOBASKET###
+<!-- ###MAIN_COUPON_WITHOUT_ARTICLES### end-->
+
+<!-- ###MAIN_COUPON_WITHOUT_ARTICLES_OLD### begin-->
+<div class="contentElement">
+	<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Ihr  Gutschein</h1></div>
+	<br />
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Gutschein eingel&ouml;st</h1></div>
+		<table border="0">
+			<tr>
+				<td rowspan="2">Der Betrag des eingel&ouml;sten Gutscheins wurde dem Warenkorb hinzugef&uuml;gt, und Sie k&ouml;nnen nun f&uuml;r diesen was aussuchen :-) Phasellus eleifend, sapien vitae tempus congue, massa ante dictum odio, at iaculis nisl sem id massa. Phasellus elit mauris, malesuada ut, venenatis at, auctor id, eros. Phasellus erat eros, fringilla ac, mattis sed, iaculis vel, nunc.</td>
+				<td><img src="fileadmin/templates/coupon.jpg" /></td>
+			</tr>
+			<tr>
+				<td><a href="###PRICE_SEARCH_LINK###">&gt;&gt;&gt; Artikel in der Preisregion des Gutscheinbetrags anzeigen</A></td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+<!-- ###MAIN_COUPON_WITHOUT_ARTICLES_OLD### end-->
+
+
+
+
+
+
+
+<!-- ###COUPON_ARTICLES### -->
+<div class="articles"> ###ARTICLE_NAME### ###PRICE_NET### ###GETARTICLELINK### </div>
+<!-- ###COUPON_ARTICLES### -->
+
+
+
+
+
+
+
+
+
+<!-- ###BUY_COUPON_FORM### -->
+Wertgutschein <br/><br/>
+<form name="couponform">
+<input type="hidden" name="tx_commercecoupons_pi1[step]" value="buyCoupon">
+<input type="text" name="tx_commercecoupons_pi1[price_gross]">
+<input type="hidden" name="tx_commercecoupons_pi1[tax]" value="16">
+<input type="submit" value="eintragen">
+</form>
+<!-- ###BUY_COUPON_FORM### -->
+

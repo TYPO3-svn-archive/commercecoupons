@@ -1,0 +1,76 @@
+######### Hook example
+# This script generates an additional marker which has to be inserted into the
+# shopping cart template file.
+# The hook has to be activated in the localconf.php
+############################################################
+
+/**
+	 * Adds the Coupon-Markers to the basketarray.
+	 * For viewing the coupons in the basket, you have to insert the marker ###COUPON_VIEW## somewhere to
+	 * your shoppingcart template.
+	 */
+	function additionalMarker($markerArray, &$pObj){
+		
+		$markerArray['###COUPON_VIEW###'] = '';
+		
+		// display coupons in basket view
+  $couponArticles = array_merge($pObj->basket->get_articles_by_article_type_uid_asuidlist(4), $pObj->basket->get_articles_by_article_type_uid_asuidlist(5));
+  // it is better to get the coupon-template code from a separated file
+ # $pObj->templateCodeCoupon = $pObj->cObj->fileResource($pObj->conf['coupons.']['templateFile']);
+  $pObj->templateCodeCoupon = $pObj->cObj->fileResource($pObj->conf['couponTemplateFile']);
+  
+  $couponTemplate = $pObj->cObj->getSubpart($pObj->templateCodeCoupon, '###PRODUCT_BASKET_LIST_MORE3###');
+  
+  foreach ($couponArticles as $currentCouponArticleUid) {
+   $priceCoupons += $pObj->basket->basket_items[$currentCouponArticleUid]->get_item_sum_gross();
+   $ma['###ARTICLE_TOTAL_PRICE###'] = tx_moneylib::format($pObj->basket->basket_items[$currentCouponArticleUid]->get_item_sum_gross(), $pObj->conf['currency']);
+   $ma['###PRODUCT_TITLE###'] = $pObj->basket->basket_items[$currentCouponArticleUid]->article->get_title();
+   $ma['###PRODUCT_DESCRIPTION###'] = $pObj->basket->basket_items[$currentCouponArticleUid]->product->get_description();
+   if (!empty($pObj->basket->basket_items[$currentCoupnArticleUid]->tx_commercecoupons_addedbycouponid)) {
+   $couponCode = $GLOBALS['TYPO3_DB']->exec_SELECTquery('code', 'tx_commercecoupons_coupons', 'article=' .$pObj->basket->basket_items[$currentCoupnArticleUid]->tx_commercecoupons_addedbycouponid);
+   $couponCode = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($couponCode);
+   #debug($couponCode, 'CouponCode');
+   $ma['###PRODUCT_TITLE###'] .= ' (' .$couponCode['code'] .')';
+   }
+   $markerArray['###COUPON_VIEW###'] .= $pObj->cObj->substituteMarkerArray($couponTemplate, $ma);
+  }
+  
+  $priceSub = $price_gross2 - $priceCoupons -$priceDel;
+  $markerArray['###BASKET_GROSS_PRICE_SUB###'] = tx_moneylib::format($priceSub,$pObj->currency);  
+   
+  $markerArray['###COUPON_FORMSTART###']  = '
+   <form name="coupon" action="'.$pObj->pi_getPageLink($pObj->conf['basketPid']).'" method="get">
+   <input type="hidden" name="id" value="'.$pObj->conf['basketPid'].'" />
+  ';
+
+  $markerArray['###DISCOUNTCOUPON_FORMSTART###']  = '
+   <form name="discountcoupon" action="'.$pObj->pi_getPageLink($pObj->conf['basketPid']).'" method="get">
+   <input type="hidden" name="id" value="'.$pObj->conf['basketPid'].'" />
+  ';
+
+  #$discountCoupons = $this->couponObj->getSessionCoupons_discountOnly();
+  
+   // deaktiviert, weil discountcoupons noch nicht implementiert sind
+  if(false && is_array($discountCoupons) && count($discountCoupons)) {
+    $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = 'display:none;';
+    $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = '';
+
+   list(,$discountCoupon) = each($discountCoupons);
+          # $markerArray['###DISCOUNTCOUPON_DETAILS###']  = 'Sie haben Ihren Rabattcoupon mit dem Couponcode "'.$discountCoupon['code'].'" eingel&ouml;st.';
+  } else {
+   $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = '';
+   $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = 'display:none;';
+  }
+  #$articleCoupons = $this->couponObj->getSessionCoupons();
+  if(is_array($articleCoupons) && count($articleCoupons)) {
+  # $this->takeaday_coupon_message .= '<p>Bisher eingel&ouml;ste Artikelgutscheine:<br />';
+   foreach($articleCoupons as $articleCoupon) {
+       # $this->takeaday_coupon_message .= $articleCoupon['code'].'<br />';
+   }
+  }
+  $markerArray['###COUPON_MESSAGE###']  = ''; #$this->takeaday_coupon_message;
+  $markerArray['###DISCOUNTCOUPON_MESSAGE###']  = ''; # $this->takeaday_discountcoupon_message;
+
+	#debug($markerArray, 'markerArray in baskethooks');
+  return $markerArray;
+	}

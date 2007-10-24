@@ -1,0 +1,32 @@
+#### setting the contstatns for the commerce coupons plugin
+##  templateFile: path to the template of the FE-plugin
+##	useCouponPid: UID of the Coupons sysfolder
+##	basketPid: id of the page with the basket view on it
+##	errorPID: Id of the error or support page, so the link to this page can be generated automatically
+##	showCouponFormTextUID: Id of the content element with the text to cash a voucher
+##	articleAddUID: Id of the content element with the "code ok"-text
+##	errorTextUID: Id of the content element with the "code wrong"-text
+##	couponWithoutArticleTextUID: Id of the content element with the "code ok"-text, for a coupon without article
+
+
+plugin.tx_commercecoupons_pi1 {
+	templateFile = EXT:commerce_coupons/pi1/couponfile.tmpl
+	useCouponPid = 2561
+	basketPid = 345
+	errorPID = 2571
+	showCouponFormTextUID = 2511
+	articleAddUID = 2510
+	errorTextUID = 2509
+	couponWithoutArticleTextUID = 2510
+}
+
+/* maybe use this as standard
+plugin.tx_commercecoupons_pi1 {    
+	templateFile = EXT:commerce_coupons/pi1/couponfile.tmpl	
+	useCouponPid = 0	
+	basketPid = 0	
+	errorPID = 0	
+	showCouponFormTextUID = 0	
+	articleAddUID = 0
+}
+*/
