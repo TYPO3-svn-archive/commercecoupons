@@ -1,0 +1,40 @@
+#####################################
+# quick_howto.txt
+#####################################
+# this one shall be a little help
+# to get commerce_coupons run quickly
+#
+# It´s not a full documentation but 
+# should be enough to get it run.
+#####################################
+
+1. First, install the Extension via Extension-Manager and agree to make updates.
+2. After successful installing, press F5 to reload the backend, so you can see a new 
+module in the Commerce section called "Coupons".
+3. Create a page with title "coupons" for example, maybe also in the shop-section.
+	"No-cache"-option must be enabled!
+		This one get´s at least one content element of type "insert Plugin". 
+		Choose the Plugin "Gutscheine einlösen."
+4. Create 2 new subpages (of page "coupons"), make it "not in menu":
+	- 1st page: will get the content elements for cashing vouchers, error messages, and so on...
+		-- e.g.:
+			* Cash your voucher
+			* Coupon cashing not successful
+			* coupon error msg
+			* coupon ok msg
+	- 2nd page: will be the page with content for a coupons support page.
+5. Add "Include static (from extensions):" "COMMERCE coupons" to your Main Template
+		best thing would be to copy the constants into your template and edit the values to your needs.
+		
+On page "coupons" you should now see the input form for a coupon code.
+
+Create a coupon in backend module, use Category "enabled". As "Article" you have to choose from
+commerce sysfolder "products", because coupons have been created as articles there. 
+Choose "syscoupons_use".
+
+To view the coupons in the basket or checkout, you have to 
+put a marker ###COUPON_VIEW### in the template files commerce-pi2 and -pi3.
+
+In pi2: add it after line "###BASKET_PRODUCT_LIST###"
+
+
