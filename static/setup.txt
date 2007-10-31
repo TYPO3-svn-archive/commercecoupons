@@ -11,7 +11,8 @@ plugin.tx_commercecoupons_pi1 {
   couponNormalType = 4
   couponRelatedType = 5
   couponBuyType = 6
-    templateFile = {$plugin.tx_commercecoupons_pi1.templateFile}
+  
+  templateFile = {$plugin.tx_commercecoupons_pi1.templateFile}
 	useCouponPid = {$plugin.tx_commercecoupons_pi1.useCouponPid}
 	basketPid = {$plugin.tx_commercecoupons_pi1.basketPid}
 	errorPID = {$plugin.tx_commercecoupons_pi1.errorPID}
@@ -65,7 +66,7 @@ plugin.tx_commerce_pi2{
     couponNormalType = 4
     couponRelatedType = 5
     couponBuyType = 6
-    couponBasketTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInBasket.tpl
+    couponBasketTemplateFile = EXT:commerce_coupons/pi1/couponsInBasket.tpl
 }
 
 
@@ -77,7 +78,7 @@ plugin.tx_commerce_pi3{
     couponRelatedType = 5
     couponBuyType = 6
     couponArticleId = 50
-    couponListingTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInListing.tpl
-    couponFinishTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInFinish.tpl
-    couponMailsTemplateFile = fileadmin/magicmaps/templates/commerce_coupons/couponsInMails.tpl
+    couponListingTemplateFile = EXT:commerce_coupons/pi1/couponsInListing.tpl
+    couponFinishTemplateFile = EXT:commerce_coupons/pi1/couponsInFinish.tpl
+    couponMailsTemplateFile = EXT:commerce_coupons/pi1/couponsInMails.tpl
 }

@@ -28,5 +28,7 @@ plugin.tx_commercecoupons_pi1 {
 	errorPID = 0	
 	showCouponFormTextUID = 0	
 	articleAddUID = 0
+	errorTextUID = 0
+	couponWithoutArticleTextUID = 0
 }
 */
