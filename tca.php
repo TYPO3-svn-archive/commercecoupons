@@ -308,7 +308,7 @@ $TCA["tx_commercecoupons_articles"] = Array (
 	        "config" => Array (
 		        'type' => 'select',
 				'foreign_table' => 'tx_commerce_articles',
-				'foreign_table_where' => 'and deleted = 0 AND tx_commerce_articles.sys_language_uid IN (-1,0) AND tx_commerce_articles.article_type_uid IN (1)',
+				'foreign_table_where' => 'and tx_commerce_articles.deleted = 0 AND tx_commerce_articles.sys_language_uid IN (-1,0) AND tx_commerce_articles.article_type_uid IN (1) ORDER BY tx_commerce_articles.title',
 		        "size" => 1,    
 		        "minitems" => 1,
 		        "maxitems" => 1,
