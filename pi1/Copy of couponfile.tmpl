@@ -1,4 +1,4 @@
-<!-- ###COUPON_FORM### begin-->
+﻿<!-- ###COUPON_FORM### begin-->
 ###SHOWCOUPONFORMTEXT###
 
 <div class="contentElement">
@@ -12,8 +12,9 @@
 
 
 <!-- ###COUPON_ERROR### begin-->
+###COUPON_ERROR_TEXT###
 <h3 class="tx-commercecoupons-pi1-header-errorlink">###HEADER###</h3>
-<div class="tx-commercecoupons-pi1-errorlink"> ###COUPON_ERROR_TEXT###</div>
+<div class="tx-commercecoupons-pi1-errorlink"> ###ERRORLINK###</div>
 <div class="tx-commercecoupons-pi1-backlink"> ###BACKLINK###</div>
 <!-- ###COUPON_ERROR### end-->
 
@@ -75,8 +76,35 @@
 <!-- ###MAIN_COUPON_WITH_ARTICLES### -->
 
 <div class="contentElement">
+	<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Ihr Gutschein</h1></div>
 	<p class="bodytext">Sie haben Ihren Gutschein f&uuml;r folgendes abgerufen:</p>
 	<p class="bodytext"><b>###ARTICLE_TITLE###</b></p>
+
+	<br />
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Gutschein buchen</h1></div>
+		<table border="0">
+			<tr>
+				<td rowspan="2">Sie k&ouml;nnen nun direkt Ihre Buchung durchf&uuml;hren. Phasellus dui massa, pretium nonummy, pellentesque ut, aliquam in, pede. Phasellus eleifend, sapien vitae tempus congue, massa ante dictum odio, at iaculis nisl sem id massa. Phasellus elit mauris, malesuada ut, venenatis at, auctor id, eros. Phasellus erat eros, fringilla ac, mattis sed, iaculis vel, nunc.</td>
+				<td><img src="fileadmin/templates/coupon.jpg" /></td>
+			</tr>
+			<tr>
+				<td><a href="###USE_COUPONLINK###">&gt;&gt;&gt; Buchen</A></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Sie wollen eine Versicherung abschlie&szlig;en oder ein zus&auml;tzliches Erlebnis buchen?</h1></div>
+		<p class="bodytext">Legen Sie hierf&uuml;r Ihren Gutschein in den Warenkorb. Phasellus dui massa, pretium nonummy, pellentesque ut, aliquam in, pede. Phasellus eleifend, sapien vitae tempus congue, massa ante dictum odio, at iaculis nisl sem id massa.  <a href="###GO_SHOPPING###">&gt;&gt;&gt; Zum Warenkorb</a></p>
+	</div>
+
+	<div class="simple">
+		<div class="csc-header csc-header-n1"><h1 class="csc-firstHeader">Sie wollen Ihren Gutschein umtauschen?</h1></div>
+		<p class="bodytext">Wenn Sie ihren Erlebnisgutschein. Ut consectetuer, nunc at porttitor venenatis, ligula massa tristique tortor, eget volutpat tellus tortor ac arcu. Ut elit lectus, blandit at, consectetuer vitae, tincidunt eget, sapien. Ut facilisis, mi et tincidunt bibendum, ante arcu egestas diam, vitae egestas est quam sit amet orci. <a href="###DELETE_ARTICLE###">&gt;&gt;&gt; Gutschein umtauschen</a></p>
+	</div>
+
 </div>
 
 <!-- ###MAIN_COUPON_WITH_ARTICLES### -->
@@ -89,7 +117,7 @@
 
 
 <!-- ###MAIN_COUPON_WITHOUT_ARTICLES### begin-->
-Ihr Gutschein wurde in den Warenkorb gelegt und entsprechend verrechnet<br />
+###MAIN_COUPON_WITHOUT_ARTICLES_TEXT###<br />
 ###LINKTOBASKET###
 <!-- ###MAIN_COUPON_WITHOUT_ARTICLES### end-->
 

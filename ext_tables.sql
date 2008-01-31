@@ -19,12 +19,15 @@ CREATE TABLE tx_commercecoupons_coupons (
 	amount_gross int(11) DEFAULT '0' NOT NULL,
 	amount_percent int(11) DEFAULT '0' NOT NULL,
 	has_articles tinyint(4)  DEFAULT '0' NOT NULL,
+	related_articles int(11)  DEFAULT '0' NOT NULL,
 	article blob NOT NULL,
 	count int(11) DEFAULT '0' NOT NULL,
 	type varchar(7) DEFAULT '' NOT NULL,
 	newpid int(11) DEFAULT '0' NOT NULL,
 	limit_start int(11) DEFAULT '0' NOT NULL,
 	limit_end int(11) DEFAULT '0' NOT NULL,
+	order_id varchar(80) DEFAULT '' NOT NULL,
+	
 	
 	PRIMARY KEY (uid),
 	KEY parent (pid)
@@ -41,7 +44,7 @@ CREATE TABLE tx_commercecoupons_articles (
     cruser_id int(11) DEFAULT '0' NOT NULL,
     deleted tinyint(4) DEFAULT '0' NOT NULL,
     hidden tinyint(4) DEFAULT '0' NOT NULL,
-    coupon_id blob NOT NULL,
+    name varchar(255) DEFAULT '' NOT NULL,
     article_id blob NOT NULL,
     price_gross int(11) DEFAULT '0' NOT NULL,
     price_net int(11) DEFAULT '0' NOT NULL,
@@ -77,3 +80,14 @@ CREATE TABLE tx_commercecoupons_cashed (
                 PRIMARY KEY (uid),
                 KEY parent (pid)
 );
+
+
+#
+# new types of articles can be added here for future needs
+#
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('1', '0', 'article');
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('2', '0', 'payment');
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('3', '0', 'delivery');
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('4', '0', 'syscoupons');
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('5', '0', 'syscoupons_special');
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('6', '0', 'syscoupons_use');

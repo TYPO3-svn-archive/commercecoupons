@@ -15,7 +15,7 @@
 			<label index="link_new_article">Related articles for coupons</label>
 			<label index="link_csv_import">CSV Import for coupons</label>
 			<label index="error_no_cat">No category selected</label>
-			<label index="couponArticleIdLabel">uid of coupon article to include</label>
+			<label index="couponArticleIdLabel">coupon article to include</label>
 			<label index="error_wrong_couponArticleId">uid of coupon article is invalid</label>
 			<label index="send">Send</label>
 			<label index="error_columns">Wrong number of columns</label>

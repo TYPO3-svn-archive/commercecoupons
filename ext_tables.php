@@ -6,44 +6,45 @@ t3lib_extMgm::addStaticFile($_EXTKEY, 'static/', 'COMMERCE Coupons');
 $TCA["tx_commercecoupons_articles"] = Array (
     "ctrl" => Array (
             "title" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_articles",        
-            "label" => "uid",    
+            "label" => "name",    
             "tstamp" => "tstamp",
 	    "crdate" => "crdate",
 	    "cruser_id" => "cruser_id",
 	    "default_sortby" => "ORDER BY crdate",    
-	    "delete" => "deleted",    
+	   'delete' => 'deleted',
 	    "enablecolumns" => Array (        
-		"disabled" => "hidden",
+		'disabled' => 'hidden',
 	    ),
     "dynamicConfigFile" => t3lib_extMgm::extPath($_EXTKEY)."tca.php",
-    "iconfile" => t3lib_extMgm::extRelPath($_EXTKEY)."icon_tx_commercecoupons_articles.gif",
+    "iconfile" => t3lib_extMgm::extRelPath($_EXTKEY)."res/tx_commercecoupons_articles.gif",
     ),
     "feInterface" => Array (
-            "fe_admin_fieldList" => "hidden, coupon_id, article_id, price_gross, price_net,amount",
+            "fe_admin_fieldList" => "hidden, name, article_id, price_gross, price_net,amount",
     )
 );
 	
 $TCA["tx_commercecoupons_coupons"] = Array (
 	'ctrl' => Array (
 		'title' => 'LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons',		
-		'label' => 'uid',	
+		'label' => 'code',	
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		"sortby" => "sorting",	
-		"delete" => "deleted",	
-		"enablecolumns" => Array (		
-			"disabled" => "hidden",	
-			"starttime" => "starttime",	
-			"endtime" => "endtime",	
-			"fe_group" => "fe_group",
+		'delete' => 'deleted',
+		'enablecolumns' => Array (
+			'disabled' => 'hidden',
+			'starttime' => 'starttime',
+			'endtime' => 'endtime',
+			'fe_group' => 'fe_group',
 		),
 		"dynamicConfigFile" => t3lib_extMgm::extPath($_EXTKEY)."tca.php",
-		"iconfile" => t3lib_extMgm::extRelPath($_EXTKEY)."icon_tx_commercecoupons_coupons.gif",
+		"iconfile" => t3lib_extMgm::extRelPath($_EXTKEY)."res/tx_commercecoupons_coupons.gif",
 		'dividers2tabs' => 1,
+		'requestUpdate' => 'type',
 	),
 	"feInterface" => Array (
-		"fe_admin_fieldList" => "hidden, starttime, endtime, fe_group, code, amount, article, count, type, limit_start, limit_end,first_name,last_name,dedication",
+		"fe_admin_fieldList" => "deleted, hidden, starttime, endtime, fe_group, code, amount, article, count, type, limit_start, limit_end,first_name,last_name,dedication,related_articles",
 	)
 );
 

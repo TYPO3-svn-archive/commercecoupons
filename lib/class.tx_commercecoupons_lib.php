@@ -32,6 +32,9 @@
  * tx_commerce includes
  */
 
+define('ERROR_COUPON_CODEMISSING',1);
+define('ERROR_COUPON_EXISTS',2);
+define('ERROR_COUPON_LOWORDERVALUE',3);
 
 class tx_commercecoupons_lib {
 
@@ -62,10 +65,14 @@ class tx_commercecoupons_lib {
 	function reduceAddedByCouponsValueIfQuantityIsLess() {
 		if(is_array($this->basket->basket_items)){
 			foreach($this->basket->basket_items as $articleUid => $item) {
+				if(is_array($item->tx_commercecoupons_addedbycouponid)) {
+					#debug($item);
+				}
 				if(is_array($item->tx_commercecoupons_addedbycouponid) && count($item->tx_commercecoupons_addedbycouponid)>$item->quantity) {
 					$new_addedByCoupons_value = $this->getFirstItemsOfArray($item->tx_commercecoupons_addedbycouponid, $item->quantity);
 					$old_addedByCoupons_value = $item->tx_commercecoupons_addedbycouponid;
 					if(is_array($this->basket->basket_items[$articleUid]->tx_commercecoupons_relatedcoupon)) {
+
 						$removedItems = array_diff($old_addedByCoupons_value,$new_addedByCoupons_value);
 						$this->removeItemsByValue($this->basket->basket_items[$articleUid]->tx_commercecoupons_relatedcoupon,$removedItems);
 					}
@@ -156,9 +163,10 @@ class tx_commercecoupons_lib {
 		$couponArticleUids_type1 = $this->basket->get_articles_by_article_type_uid_asuidlist($this->pObj->conf['couponNormalType']);	// was 4
 	  $couponArticleUids_type2 = $this->basket->get_articles_by_article_type_uid_asuidlist($this->pObj->conf['couponRelatedType']);	// was 5
 		$couponArticleUids = array_merge($couponArticleUids_type1,$couponArticleUids_type2);
-			// erstmal alle coupon artikel löschen:
+			// erstmal alle coupon artikel lï¿½schen:
 		foreach($couponArticleUids as $couponArticleUid) {
 			if($this->basket->basket_items[$couponArticleUid]) {
+
 				$this->basket->delete_article($couponArticleUid);
 			}
 		}
@@ -177,6 +185,7 @@ class tx_commercecoupons_lib {
 
 				// add coupon article to the basket or add quantity to existing article
 			if($b[$coupon['articleId']]->quantity) {
+
 				$previous_price_net = $b[$coupon['articleId']]->get_price_net();
 				$previous_price_gross = $b[$coupon['articleId']]->get_price_gross();
 				$b[$coupon['articleId']]->tx_commercecoupons_addedbycouponid[] = $coupon['uid'];
@@ -184,12 +193,15 @@ class tx_commercecoupons_lib {
 				$b[$coupon['articleId']]->setPriceNet($previous_price_net+$coupon['price_net']);
 				$b[$coupon['articleId']]->setPriceGross($previous_price_gross+$coupon['price_gross']);
 			} else {
+
 				$this->basket->add_article($coupon['articleId']);
 				$b[$coupon['articleId']]->tx_commercecoupons_addedbycouponid = array($coupon['uid']);
 				$b[$coupon['articleId']]->related_coupon = array($coupon['uid']);
 				$this->basket->changePrices($coupon['articleId'],$coupon['price_gross'],$coupon['price_net']);
 			}
 		}
+		
+		
 		$this->basket->store_data();
 	}
 
@@ -221,8 +233,8 @@ class tx_commercecoupons_lib {
 
 	function addCoupon($code,$isId=false){
 		$coupon = $this->getCouponData($code,$isId);
-				
-		if(count($coupon)) {
+		#debug($coupon,'METHOD addCoupon');
+		if(is_array($coupon) AND count($coupon) > 1) {
 			$sessionCoupons = $this->getSessionCoupons();
 #debug($coupon['uid'], 'Session');
 			if(!$sessionCoupons[$coupon['uid']]) {
@@ -231,14 +243,16 @@ class tx_commercecoupons_lib {
 				#$this->changeCouponCount($coupon);	// depricated
 				$this->regenerateCouponArticle();
 				
-				debug($coupon, 'coupon in lib, addCoupon');
+				#debug($coupon, 'coupon in lib, addCoupon');
 				
 				return $coupon;
 			} else {	// if coupon exists
+				#debug('BEREITS VORHANDEN');
+				return ERROR_COUPON_EXISTS;
 					#$this->changeCouponCount($sessionCoupons);
 			}
 		}
-		return false;
+		return $coupon;
 	}
 
 
@@ -258,16 +272,26 @@ class tx_commercecoupons_lib {
 	// @ToDo clear for multiple coupons in one code
 
 	function getCouponData($code,$isId=false){
-		$couponData = array();
+		$couponData =  ERROR_COUPON_CODEMISSING;
+	    $couponEnableFolderWhere = '';
+		if(!$isId) {
+			$coupon_pid = array_unique(tx_graytree_folder_db::initFolders('Coupons', 'commerce', 0, 'Commerce'));
+			$couponFolder = array_unique(tx_graytree_folder_db::initFolders('Enabled', 'commerce', $coupon_pid[0]));
+			$couponUseFolder[] = $couponFolder[0];
+			$couponFolder = array_unique(tx_graytree_folder_db::initFolders('Ordered', 'commerce', $coupon_pid[0]));
+			$couponUseFolder[] = $couponFolder[0];
+			$couponEnableFolderWhere = ' AND pid in (' . implode(',',$couponUseFolder) .')';
+		}
 
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*','tx_commercecoupons_coupons',($isId?'uid='.intval($code):'code = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($code, 'tx_commercecoupons_coupons')).$GLOBALS['TSFE']->cObj->enableFields('tx_commercecoupons_coupons'));
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*','tx_commercecoupons_coupons',($isId?'uid='.intval($code):'code = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($code, 'tx_commercecoupons_coupons')).$GLOBALS['TSFE']->cObj->enableFields('tx_commercecoupons_coupons').$couponEnableFolderWhere);
 		if($GLOBALS['TYPO3_DB']->sql_num_rows($res)>0){
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 
 			if(intval($row['count']) > 0 || intval($row['count']) == -1){
 				$calculationPrice = $this->calculatePriceForRabatt();
-				if(($row['limit_start'] < $calculationPrice['net'] || $row['limit_start'] == 0)){	
-
+				#debug(array($row,$calculationPrice));
+				if(($row['limit_start'] <= $calculationPrice['gross'] || $row['limit_start'] == 0)){	
+					$couponData = array();
 					# $calculationPrice = $this->calculatePriceForRabatt();
 					// everything OK; set Information
 					if($row['type'] == 'percent'){
@@ -289,9 +313,10 @@ class tx_commercecoupons_lib {
 					$couponData['code'] = $row['code'];
 					$couponData['uid'] = $row['uid'];
 					$couponData['has_articles'] = $row['has_articles'];
+				} else {
+					$couponData =  ERROR_COUPON_LOWORDERVALUE;
 				}
-				return $couponData;
-			}
+			} 
 		}
 		return $couponData;
 	}
@@ -324,7 +349,7 @@ class tx_commercecoupons_lib {
 	//  add an article to the basket, if it wasn'T insert already. Otherwise change the quantity
 	function addCouponArticles($coupon = array()){
 		if(!$coupon['record']['has_articles']) return false;
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*','tx_commercecoupons_articles','coupon_id = \''.$coupon['uid'].'\''.$GLOBALS['TSFE']->cObj->enableFields('tx_commercecoupons_articles'));
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*','tx_commercecoupons_articles','uid = \''.$coupon['record']['related_articles'].'\''.$GLOBALS['TSFE']->cObj->enableFields('tx_commercecoupons_articles'));
 		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
 		    if($row['amount']>0) {
 
@@ -333,7 +358,8 @@ class tx_commercecoupons_lib {
 					// add article to the basket or add quantity if article is already in basket
 				if($this->basket->basket_items[$row['article_id']]) {
 					$item = &$this->basket->basket_items[$row['article_id']];
-					$item->change_quantity($item->quantity+($row['amount']?$row['amount']:1));
+					$item->change_quantity(1);
+					$this->basket->changePrices($row['article_id'],$row['price_gross'],$row['price_net']);
 				} else {
 					$this->basket->add_article($row['article_id'],1); // has been: $row['amount']
 					$item = &$this->basket->basket_items[$row['article_id']];

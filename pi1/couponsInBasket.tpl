@@ -9,3 +9,7 @@
     <td class="formTableShadowRight"><img src="clear.gif" width="1" height="1" border="0" /></td>
 </tr>
 <!-- ###COUPON_VIEW_IN_BASKET### end -->
+
+<!-- ###COUPON_MINIMUMORDERVALUE### begin -->
+<b>Der Mindestbestellwert wurde durch einen Gutschein auf ###COUPON_MINIMUMORDER_VALUE### gesetzt.</b>
+<!-- ###COUPON_MINIMUMORDERVALUE### begin -->

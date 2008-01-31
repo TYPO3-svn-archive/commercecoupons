@@ -41,7 +41,8 @@ class tx_commercecoupons_fields {
 	//HIER Fetch Fehler, $res ist leer
 	// cUid ist was drin
 	// datenbank hat noch keinen Eintrag, $res bleibt dadurch leer
-	$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_commercecoupons_articles', 'coupon_id=' .$cUid);
+	$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_commercecoupons_articles', 'coupon_id=\''.$cUid.'\'');
+
 	//If Check
 	if($res)
 		$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
@@ -66,7 +67,21 @@ class tx_commercecoupons_fields {
 	
 	    // return the result
 	return $result;
-    }    
+    }
+
+    function calculate_price($PA, $fObj)	{
+    	$result = '';
+		$result = '<input name="';
+		$result .= $PA['itemFormElName'];
+		$result .= '_hr" value="'.sprintf('%2.2f', ($PA['itemFormElValue'] /100)).'" style="width: 288px;" class="formField1" maxlength="256" onchange="typo3form.fieldGet(\'';
+		$result .= $PA['itemFormElName'];
+		$result .= '\',\'double2,nospace\',\'\',0,\'\');TBE_EDITOR.fieldChanged(\'';
+		$result .= $PA['table'] . "','".$PA['row']['uid']."','" . $PA['field'] ."','" . $PA['itemFormElName'] ."');";
+		$result .= '" type="text"><input name="';
+		$result .= $PA['itemFormElName'];
+		$result .= '" value="'.sprintf('%2.2f', ($PA['itemFormElValue'] /100)).'" type="hidden">';
+    	return $result;
+    }
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']["ext/commerce_coupons/class.tx_commercecoupons_fields.php"])	{

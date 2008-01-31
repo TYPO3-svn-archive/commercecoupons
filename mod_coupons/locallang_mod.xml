@@ -7,13 +7,13 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="mlang_tabs_tab">Coupons</label>
-			<label index="mlang_labels_tabdescr">Coupons</label>
+			<label index="mlang_tabs_tab">Coupondata</label>
+			<label index="mlang_labels_tabdescr">Browse, edit and delete coupons</label>
 			<label index="mlang_labels_tablabel">coupons</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="mlang_tabs_tab">Gutscheine</label>
-			<label index="mlang_labels_tabdescr">Gutscheine</label>
+			<label index="mlang_tabs_tab">Coupons</label>
+			<label index="mlang_labels_tabdescr">Bearbeiten von Gutscheinen</label>
 			<label index="mlang_labels_tablabel">Gutscheine</label>
 		</languageKey>
 	</data>

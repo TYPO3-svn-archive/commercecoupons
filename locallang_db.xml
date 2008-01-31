@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description></description>
+        <type></type>
+        <csh_table></csh_table>
+        <labelContext type="array">
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="tx_commercecoupons_coupons">Coupons</label>
+            <label index="tx_commerce_coupons.hidden">Disabled</label>
+            <label index="tx_commercecoupons_coupons.code">Code</label>
+            <label index="tx_commercecoupons_coupons.amount_net">Amount net</label>
+            <label index="tx_commercecoupons_coupons.amount_gross">Amount gross</label>
+            <label index="tx_commercecoupons_coupons.amount_percent">Amount percent</label>
+            <label index="tx_commercecoupons_coupons.article">Article</label>
+            <label index="tx_commercecoupons_coupons.count">Number</label>
+            <label index="tx_commercecoupons_coupons.type.I.0">Money</label>
+            <label index="tx_commercecoupons_coupons.type.I.1">Percent</label>
+			<label index="tx_commercecoupons_coupons.type.I.2">Article</label>
+            <label index="tx_commercecoupons_coupons.type">Type</label>
+            <label index="tx_commercecoupons_coupons.dedication">Dedication</label>
+            <label index="tx_commercecoupons_coupons.newpid">Coupon type</label>
+            <label index="tx_commercecoupons_coupons.limit_start">minimum order value</label>
+            <label index="tx_commercecoupons_coupons.limit_end">maximum coupon amount</label>
+            <label index="tx_commercecoupons_articles">Related articles for coupons</label>
+            <label index="tx_commercecoupons_articles.coupon_id">Coupon</label>
+            <label index="tx_commercecoupons_articles.article_id">Article</label>
+            <label index="tx_commercecoupons_articles.price_gross">Price gross</label>
+            <label index="tx_commercecoupons_articles.price_net">price net</label>
+            <label index="tx_commercecoupons_articles.amount">Number</label>
+            <label index="tx_commerce_orders.coupons">Coupons</label>
+            <label index="tx_commercecoupons_coupons.has_articles">Has articles</label>
+			<label index="tx_commercecoupons_coupons.related_articles">Related Article</label>
+            <label index="tx_commerce_orders.coupon_list">Coupon list</label>
+            <label index="tx_commerce_orders.activate_coupons">Activate coupons</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="tx_commercecoupons_coupons">Gutscheine</label>
+            <label index="tx_commerce_coupons.hidden">Gesperrt</label>
+            <label index="tx_commercecoupons_coupons.pid">Status</label>
+            <label index="tx_commercecoupons_coupons.code">Code</label>
+            <label index="tx_commercecoupons_coupons.amount_net">Betrag netto</label>
+            <label index="tx_commercecoupons_coupons.amount_gross">Betrag brutto</label>
+            <label index="tx_commercecoupons_coupons.amount_percent">Betrag Prozent</label>
+            <label index="tx_commercecoupons_coupons.article">Artikel</label>
+            <label index="tx_commercecoupons_coupons.count">Anzahl</label>
+            <label index="tx_commercecoupons_coupons.type.I.0">Geldwert</label>
+            <label index="tx_commercecoupons_coupons.type.I.1">Prozentwert</label>
+			<label index="tx_commercecoupons_coupons.type.I.2">Gratisartikel</label>
+            <label index="tx_commercecoupons_coupons.type">Typ</label>
+            <label index="tx_commercecoupons_coupons.newpid">Coupon Status</label>
+            <label index="tx_commercecoupons_coupons.limit_start">Mindestbestellwert</label>
+            <label index="tx_commercecoupons_coupons.limit_end">Maximaler Gutscheinwert</label>
+            <label index="tx_commercecoupons_articles">Artikel einem Gutschein zuweisen</label>
+            <label index="tx_commercecoupons_articles.coupon_id">Coupon</label>
+            <label index="tx_commercecoupons_articles.article_id">Article</label>
+            <label index="tx_commercecoupons_articles.price_gross">Preis brutto</label>
+            <label index="tx_commercecoupons_articles.price_net">Preis netto</label>
+            <label index="tx_commercecoupons_articles.amount">Anzahl</label>
+			<label index="tx_commercecoupons_coupons.has_articles">Hat Gratisartikel</label>
+			<label index="tx_commercecoupons_coupons.related_articles">Zugeordneter Wertartikel</label>
+            <label index="tx_commerce_orders.coupon_list">Gutscheine</label>
+            <label index="tx_commerce_orders.activate_coupons">Gutscheine aktivieren</label>
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index="tx_commercecoupons_coupons" type="integer">214196588</label>
+            <label index="tx_commerce_coupons.hidden" type="integer">194993273</label>
+            <label index="tx_commercecoupons_coupons.code" type="integer">211868589</label>
+            <label index="tx_commercecoupons_coupons.amount_net" type="integer">123361006</label>
+            <label index="tx_commercecoupons_coupons.amount_gross" type="integer">226039373</label>
+            <label index="tx_commercecoupons_coupons.amount_percent" type="integer">100951802</label>
+            <label index="tx_commercecoupons_coupons.article" type="integer">98760942</label>
+            <label index="tx_commercecoupons_coupons.count" type="integer">109782493</label>
+            <label index="tx_commercecoupons_coupons.type.I.0" type="integer">177418536</label>
+            <label index="tx_commercecoupons_coupons.type.I.1" type="integer">182103780</label>
+            <label index="tx_commercecoupons_coupons.type" type="integer">169845367</label>
+            <label index="tx_commercecoupons_coupons.dedication" type="integer">219315631</label>
+            <label index="tx_commercecoupons_coupons.newpid" type="integer">111227639</label>
+            <label index="tx_commercecoupons_coupons.limit_start" type="integer">152176407</label>
+            <label index="tx_commercecoupons_coupons.limit_end" type="integer">121267973</label>
+            <label index="tx_commercecoupons_articles" type="integer">266143875</label>
+            <label index="tx_commercecoupons_articles.coupon_id" type="integer">182152805</label>
+            <label index="tx_commercecoupons_articles.article_id" type="integer">98760942</label>
+            <label index="tx_commercecoupons_articles.price_gross" type="integer">16567144</label>
+            <label index="tx_commercecoupons_articles.price_net" type="integer">172718659</label>
+            <label index="tx_commercecoupons_articles.amount" type="integer">187623698</label>
+            <label index="tx_commerce_orders.coupons" type="integer">214196588</label>
+            <label index="tx_commercecoupons_coupons.has_articles" type="integer">239948884</label>
+            <label index="tx_commerce_orders.coupon_list" type="integer">126727470</label>
+            <label index="tx_commerce_orders.activate_coupons" type="integer">203170536</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="tx_commercecoupons_coupons" type="integer">214196588</label>
+            <label index="tx_commerce_coupons.hidden" type="integer">194993273</label>
+            <label index="tx_commercecoupons_coupons.pid" type="integer">222419149</label>
+            <label index="tx_commercecoupons_coupons.code" type="integer">211868589</label>
+            <label index="tx_commercecoupons_coupons.amount_net" type="integer">123361006</label>
+            <label index="tx_commercecoupons_coupons.amount_gross" type="integer">226039373</label>
+            <label index="tx_commercecoupons_coupons.amount_percent" type="integer">100951802</label>
+            <label index="tx_commercecoupons_coupons.article" type="integer">98760942</label>
+            <label index="tx_commercecoupons_coupons.count" type="integer">109782493</label>
+            <label index="tx_commercecoupons_coupons.type.I.0" type="integer">177418536</label>
+            <label index="tx_commercecoupons_coupons.type.I.1" type="integer">182103780</label>
+            <label index="tx_commercecoupons_coupons.type" type="integer">169845367</label>
+            <label index="tx_commercecoupons_coupons.newpid" type="integer">111227639</label>
+            <label index="tx_commercecoupons_coupons.limit_start" type="integer">152176407</label>
+            <label index="tx_commercecoupons_coupons.limit_end" type="integer">121267973</label>
+            <label index="tx_commercecoupons_articles" type="integer">266143875</label>
+            <label index="tx_commercecoupons_articles.coupon_id" type="integer">182152805</label>
+            <label index="tx_commercecoupons_articles.article_id" type="integer">98760942</label>
+            <label index="tx_commercecoupons_articles.price_gross" type="integer">16567144</label>
+            <label index="tx_commercecoupons_articles.price_net" type="integer">172718659</label>
+            <label index="tx_commercecoupons_articles.amount" type="integer">187623698</label>
+            <label index="tx_commerce_orders.coupon_list" type="integer">126727470</label>
+            <label index="tx_commerce_orders.activate_coupons" type="integer">203170536</label>
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>

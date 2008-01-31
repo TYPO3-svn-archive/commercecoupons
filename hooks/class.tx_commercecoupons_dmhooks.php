@@ -36,9 +36,21 @@
 class tx_commercecoupons_dmhooks {
 	function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, $pObj)	{
 		// check if we have to do something
+		if ($table = 'tx_commercecoupons_coupons')	{
+			foreach($fieldArray as $key => $value) {
+				if($key == 'limit_start' || $key == 'limit_end' || $key == 'amount_net' || $key == 'amount_gross') {
+					$value = $value * 100;
+					$fieldArray[$key] = (int)$value;
+				}
+			}
+		}
+		
 		if ($table != 'tx_commercecoupons_coupons' || strtolower(substr($id, 0, 3)) == 'new')	{
 			return;
 		}
+		
+		
+		
 		
 		$this->moveCoupon($status, $table, $id, $fieldArray, $th_obj);
 	}

@@ -62,7 +62,7 @@ class tx_commercecoupons_colistinghooks	extends tx_commerce_basket_item {
 	 */
 	function ProcessMarker($markerArray, &$pObj){
 	
-		## don´t allow, that the quantity of a coupon can be changed
+		## donï¿½t allow, that the quantity of a coupon can be changed
 		$article_id = $pObj->piVars['artAddUid'];
 		if(is_array($article_id)){
 			foreach($article_id as $art => $aObj){
@@ -122,7 +122,7 @@ class tx_commercecoupons_colistinghooks	extends tx_commerce_basket_item {
 	  }
 	
 	  $price_gross2 = $pObj->basket->getArticleTypeSumGross(NORMALArticleType);
-	  $priceSub = $price_gross2 - $priceCoupons -$priceDel;
+	  $priceSub = $price_gross2 + $priceCoupons; //price Coupons is only negativ when set so you have to add this to reduce sum  - $priceDel;
 	  $markerArray['###BASKET_GROSS_PRICE_SUB###'] = tx_moneylib::format($priceSub,$pObj->currency);
 	
 	  $markerArray['###COUPON_FORMSTART###']  = '
@@ -148,6 +148,9 @@ class tx_commercecoupons_colistinghooks	extends tx_commerce_basket_item {
 	   $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = '';
 	   $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = 'display:none;';
 	  }
+	  
+	  #debug($markerArray);
+	  
 	  return $markerArray;
 	}
 }

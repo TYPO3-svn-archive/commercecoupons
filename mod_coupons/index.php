@@ -98,7 +98,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 	var $include_once=array();	// Array, where files to include is accumulated in the init() function
 	
 	// by Ralf
-	var $error_wrong_cArtId='';		// Error Message, get´s filled if a no-int value is input in the couponArticleId field
+	var $error_wrong_cArtId='';		// Error Message, getï¿½s filled if a no-int value is input in the couponArticleId field
 	/**
 	 *
 	 */
@@ -301,7 +301,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 				$errorCheck[] = $this->csvCheckIfNum($csvdata[5]);
 				//Check if category is a number
 				//$errorCheck[] = $this->csvCheckIfNum($csvdata[10]);
-
+				
 				//Check if line provides
 				if (in_array('', $errorCheck)) {
 				    $output .= '<br><strong>'.$LANG->getLL("error_syntax_1").'</strong>'.$LANG->getLL("error_syntax_2");
@@ -430,20 +430,37 @@ class tx_commerce_coupons extends t3lib_SCbase {
 
 				//Links and csv import
 				if($GLOBALS['HTTP_GET_VARS']['id'] != '' || $GLOBALS['HTTP_POST_VARS']['id'] != '') {
-					$this->content.='<a href="#" onclick="document.location=\'../../../../typo3/alt_doc.php?returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI')).'&amp;edit[tx_commercecoupons_coupons]['.$GLOBALS['HTTP_GET_VARS']['id'].']=new\'; return false;"><img src="../icon_tx_commercecoupons_coupons.gif" alt="" /> '.$LANG->getLL("link_new_coupon").'</a><br />';
-					$this->content.='<a href="#" onclick="document.location=\'../../../../typo3/alt_doc.php?returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI')).'&amp;edit[tx_commercecoupons_articles]['.$GLOBALS['HTTP_GET_VARS']['id'].']=new\'; return false;"><img src="../icon_tx_commercecoupons_articles.gif" alt="" /> '.$LANG->getLL("link_new_article").'</a>';
+					$this->content.='<a href="#" onclick="document.location=\'../../../../typo3/alt_doc.php?returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI')).'&amp;edit[tx_commercecoupons_coupons]['.$GLOBALS['HTTP_GET_VARS']['id'].']=new\'; return false;"><img src="../res/tx_commercecoupons_coupons.gif" alt="" /> '.$LANG->getLL("link_new_coupon").'</a><br />';
+					$this->content.='<a href="#" onclick="document.location=\'../../../../typo3/alt_doc.php?returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI')).'&amp;edit[tx_commercecoupons_articles]['.$GLOBALS['HTTP_GET_VARS']['id'].']=new\'; return false;"><img src="../res/tx_commercecoupons_articles.gif" alt="" /> '.$LANG->getLL("link_new_article").'</a>';
 					$this->content.='<hr /><a href="#" onclick="document.location=\'\'; return false;">'.$LANG->getLL("link_csv_import").'</a><br /><br />';
+					
+					$articleRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title','tx_commerce_articles','sys_language_uid IN (-1,0) AND article_type_uid = 4 AND deleted = 0');
+					
+					$articleOptions = '';
+					while ($articleRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($articleRes)) {
+						$articleOptions = '<option value="'.$articleRow['uid'].'">' . $articleRow['title'] . '</option>';
+					}
+					$this->content.='
 
+					<!--
+						Upload Form for CSV
+					-->
+					<div id="typo3-listOptions">
+						<form action="index.php" enctype="'.$GLOBALS['TYPO3_CONF_VARS']['SYS']['form_enctype'].'" method="post">';
+					
 					$this->content.='<br />
 						<input type="file" name="datei" style="width:336px;" size="50" onclick="changed=1;" />
 						<br /><br />
-						'.$LANG->getLL("couponArticleIdLabel").': <input type="text" name="couponArticleId" size="5" />';
+						'.$LANG->getLL("couponArticleIdLabel").': <select name="couponArticleId">' . $articleOptions . '</select>';
 						if(strlen($this->error_wrong_cArtId) > 0){
 						 		$this->content.= ' <b>'.$this->error_wrong_cArtId.'</b>';
 						 	}
 						 $this->content.='<br /><br />
 						<input type="submit" name="submit" value="'.$LANG->getLL("send").'" />
 						<input type="hidden" name="id" value="'.$GLOBALS['HTTP_GET_VARS']['id'].'" />';
+					$this->content.='
+						</form>
+					</div>';
 				}
 				else {
 					$this->content.=$LANG->getLL("error_no_cat");
@@ -706,14 +723,14 @@ class tx_commerce_coupons extends t3lib_SCbase {
 			}
 
 				// Adding checkbox options for extended listing and clipboard display:
-			$this->content.='
-
-					<!--
-						Listing options for clipboard and thumbnails
-					-->
-					<div id="typo3-listOptions">
-						<form action="index.php" enctype="'.$GLOBALS['TYPO3_CONF_VARS']['SYS']['form_enctype'].'" method="post">
-						'; //<form action="" method="post">
+			#$this->content.='
+#
+#					<!--
+#						Listing options for clipboard and thumbnails
+#					-->
+#					<div id="typo3-listOptions">
+#						<form action="index.php" enctype="'.$GLOBALS['TYPO3_CONF_VARS']['SYS']['form_enctype'].'" method="post">
+#						'; //<form action="" method="post">
 
 //zzz
 //include_once('./typo3/db_list.php?id='.$GLOBALS['HTTP_GET_VARS']['id']);
@@ -723,14 +740,14 @@ class tx_commerce_coupons extends t3lib_SCbase {
 #			$this->content.=t3lib_BEfunc::getFuncCheck($this->id,'SET[bigControlPanel]',$this->MOD_SETTINGS['bigControlPanel'],'db_list.php','').' '.$LANG->getLL('largeControl',1).'<br />';
 			
 			#Klemmbrett anzeigen
-			if ($dblist->showClipboard)	{
+#			if ($dblist->showClipboard)	{
 #				$this->content.=t3lib_BEfunc::getFuncCheck($this->id,'SET[clipBoard]',$this->MOD_SETTINGS['clipBoard'],'db_list.php','').' '.$LANG->getLL('showClipBoard',1).'<br />';
-			}
+#			}
 			#Lokalisierungsansicht
 #			$this->content.=t3lib_BEfunc::getFuncCheck($this->id,'SET[localization]',$this->MOD_SETTINGS['localization'],'db_list.php','').' '.$LANG->getLL('localization',1).'<br />';
-			$this->content.='
-						</form>
-					</div>';
+#			$this->content.='
+#						</form>
+#					</div>';
 #			$this->content.= t3lib_BEfunc::cshItem('xMOD_csh_corebe', 'list_options', $GLOBALS['BACK_PATH']);
 
 				// Printing clipboard if enabled:

@@ -64,15 +64,14 @@ require_once (PATH_typo3.'class.db_list_extra.inc');
  		}
  		$query_array=array(
 	
- 			'SELECT' => 'coupons.uid,coupons.pid,coupons.crdate,coupons.code,coupons.count,coupons.type,coupons.amount_net,coupons.amount_gross,coupons.amount_percent,coupons.limit_start,coupons.limit_end,coupons.article,article.title',
+ 			'SELECT' => 'coupons.uid,coupons.pid,coupons.deleted,coupons.hidden,coupons.starttime, coupons.endtime,coupons.fe_group,coupons.crdate,coupons.code,coupons.count,coupons.type,coupons.amount_net/100 as amount_net,coupons.amount_gross/100 as amount_gross,coupons.amount_percent,coupons.limit_start/100 as limit_start,coupons.limit_end/100 as limit_end,coupons.article,article.title',
  			'FROM' =>'tx_commercecoupons_coupons AS coupons INNER JOIN tx_commerce_articles AS article ON article.uid = coupons.article',
- 			'WHERE' =>'coupons.newpid='.$id,
+ 			'WHERE' =>'coupons.newpid='.$id.' and coupons.deleted = 0 ' ,
  			'GROUPBY' => '',
  			'ORDERBY' => $orderby,
  			'sorting' => '',
 			'LIMIT' => ''
  			
- 		
  		);
 
  		$this->dontShowClipControlPanels = 1;
@@ -275,7 +274,7 @@ require_once (PATH_typo3.'class.db_list_extra.inc');
 			// Create the SQL query for selecting the elements in the listing:
 
 		$queryParts = $this->makeQueryArray($table, $id,$addWhere,$selFieldList);	// (API function from class.db_list.inc)	
-
+		
 		$this->setTotalItems($queryParts);		// Finding the total amount of records on the page (API function from class.db_list.inc)
 
 			// Init:
@@ -350,6 +349,7 @@ require_once (PATH_typo3.'class.db_list_extra.inc');
 		
 				while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result))	{
 				
+					
 					$accRows[] = $row;
 					$currentIdList[] = $row['uid'];
 					if ($doSort)	{
@@ -383,7 +383,7 @@ require_once (PATH_typo3.'class.db_list_extra.inc');
 						// If render item, increment counter and call function
 					if ($flag)	{
 						$cc++;
-						
+					
 						$iOut.=$this->renderListRow($table,$row,$cc,$titleCol,$thumbsCol);
 
 							// If localization view is enabled it means that the selected records are either default or All language and here we will not select translations which point to the main record:
@@ -437,6 +437,97 @@ require_once (PATH_typo3.'class.db_list_extra.inc');
 			// Return content:
 		return $out;
 	}
+	
+ /**
+	 * Rendering a single row for the list
+	 *
+	 * @param	string		Table name
+	 * @param	array		Current record
+	 * @param	integer		Counter, counting for each time an element is rendered (used for alternating colors)
+	 * @param	string		Table field (column) where header value is found
+	 * @param	string		Table field (column) where (possible) thumbnails can be found
+	 * @param	integer		Indent from left.
+	 * @return	string		Table row for the element
+	 * @access private
+	 * @see getTable()
+	 */
+	
+	function renderListRow($table,$row,$cc,$titleCol,$thumbsCol,$indent=0)	{
+		$iOut = '';
+		
+		if (strlen($this->searchString))	{	// If in search mode, make sure the preview will show the correct page
+			$id_orig = $this->id;
+			$this->id = $row['pid'];
+		}
+
+			// In offline workspace, look for alternative record:
+		t3lib_BEfunc::workspaceOL($table, $row, $GLOBALS['BE_USER']->workspace);
+
+			// Background color, if any:
+		$row_bgColor=
+			$this->alternateBgColors ?
+			(($cc%2)?'' :' class="db_list_alt"') :
+			'';
+
+			// Overriding with versions background color if any:
+		$row_bgColor = $row['_CSSCLASS'] ? ' class="'.$row['_CSSCLASS'].'"' : $row_bgColor;
+
+			// Incr. counter.
+		$this->counter++;
+		
+			// The icon with link
+		$alttext = t3lib_BEfunc::getRecordIconAltText($row,$table);
+		$iconImg = t3lib_iconWorks::getIconImage($table,$row,$this->backPath,'title="'.htmlspecialchars($alttext).'"'.($indent ? ' style="margin-left: '.$indent.'px;"' : ''));
+		$theIcon = $this->clickMenuEnabled ? $GLOBALS['SOBE']->doc->wrapClickMenuOnIcon($iconImg,$table,$row['uid'],1,'','+edit') : $iconImg;
+		$theIcon = $this->clickMenuEnabled ? $GLOBALS['SOBE']->doc->wrapClickMenuOnIcon($iconImg,$table,$row['uid'],1,'','') : $iconImg;
+			// Preparing and getting the data-array
+		$theData = Array();
+		foreach($this->fieldArray as $fCol)	{
+			if ($fCol==$titleCol)	{
+				$recTitle = t3lib_BEfunc::getRecordTitle($table,$row,FALSE,TRUE);
+				$theData[$fCol] = $this->linkWrapItems($table,$row['uid'],$recTitle,$row);
+			} elseif ($fCol=='pid') {
+				$theData[$fCol]=$row[$fCol];
+			} elseif ($fCol=='_PATH_') {
+				$theData[$fCol]=$this->recPath($row['pid']);
+			} elseif ($fCol=='_REF_') {
+				$theData[$fCol]=$this->makeRef($table,$row['uid']);
+			} elseif ($fCol=='_CONTROL_') {
+				$theData[$fCol]=$this->makeControl($table,$row);
+			} elseif ($fCol=='_CLIPBOARD_') {
+				$theData[$fCol]=$this->makeClip($table,$row);
+#				$t3lib_transl8tools = new t3lib_transl8tools;
+#				$theData[$fCol].=t3lib_div::view_array($t3lib_transl8tools->translationInfo($table,$row['uid']));
+			} elseif ($fCol=='_LOCALIZATION_') {
+				list($lC1, $lC2) = $this->makeLocalizationPanel($table,$row);
+				$theData[$fCol] = $lC1;
+				$theData[$fCol.'b'] = $lC2;
+			} elseif ($fCol=='_LOCALIZATION_b') {
+				// Do nothing, has been done above.
+			} else {
+				$theData[$fCol] = $this->linkUrlMail(htmlspecialchars(t3lib_BEfunc::getProcessedValueExtra($table,$fCol,$row[$fCol],100,$row['uid'])),$row[$fCol]);
+			}
+		}
+
+		if (strlen($this->searchString))	{	// Reset the ID if it was overwritten
+			$this->id = $id_orig;
+		}
+
+			// Add row to CSV list:
+		if ($this->csvOutput) $this->addToCSV($row,$table);
+
+			// Create element in table cells:
+		$iOut.=$this->addelement(1,$theIcon,$theData,$row_bgColor);
+
+			// Render thumbsnails if a thumbnail column exists and there is content in it:
+		if ($this->thumbs && trim($row[$thumbsCol]))	{
+			$iOut.=$this->addelement(4,'', Array($titleCol=>$this->thumbCode($row,$table,$thumbsCol)),$row_bgColor);
+		}
+
+			// Finally, return table row element:
+		return $iOut;
+	}
+
 
  }
  

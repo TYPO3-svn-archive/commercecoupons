@@ -8,7 +8,7 @@
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['commerce/pi3/class.tx_commerce_pi3.php']['getListing'][] = 'EXT:commerce_coupons/hooks/class.tx_commercecoupons_colistinghooks.php:tx_commercecoupons_colistinghooks';
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['commerce/pi3/class.tx_commerce_pi3.php']['generateMail'][] = 'EXT:commerce_coupons/hooks/class.tx_commercecoupons_mailhooks.php:tx_commercecoupons_mailhooks';
 	
-	t3lib_extMgm::addPItoST43($_EXTKEY,'pi1/class.tx_commercecoupons_pi1.php', '_pi1', 'list_type', 1);
+	t3lib_extMgm::addPItoST43($_EXTKEY,'pi1/class.tx_commercecoupons_pi1.php', '_pi1', 'list_type', 0);
 	
 	$TYPO3_CONF_VARS['EXTCONF'][COMMERCE_EXTkey]['SYSPRODUCTS']['COUPONS'] = array(
         'tablefields' => array (

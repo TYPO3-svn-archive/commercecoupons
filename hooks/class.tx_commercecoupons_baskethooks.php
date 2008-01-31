@@ -65,6 +65,35 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 	 * @param object $this
 	 */
 	function postartAddUid(&$basket, &$pObj)	{
+		$article_id = $pObj->piVars['artAddUid'];
+		$coupons = $GLOBALS['TSFE']->fe_user->sesData['coupons'];
+		if(is_array($article_id)){
+			$deleteAllCoupons = false;
+			foreach($article_id as $art => $aObj){
+				if(intval($aObj['count']) == 0 || intval($aObj['count']) > 1){
+					foreach($coupons as $coupon) {
+						if(isset($coupon['_addedArticles'][$art])) {
+							$deleteAllCoupons = true;
+						}
+					}
+				}
+			}
+			if($deleteAllCoupons) {
+				foreach($coupons as $coupon) {
+					if(isset($coupon['_addedArticles'])) {
+						foreach($coupon['_addedArticles'] as $actualArtUid => $relatedArticle) {
+							$basket->delete_article($actualArtUid);
+							unset($basket->basket_items[$actualArtUid]);
+						}
+					}
+					$basket->delete_article($coupon['articleId']);
+					unset($basket->basket_items[$coupon['articleId']]);
+				}
+				$pObj->couponObj = new tx_commercecoupons_lib($pObj);
+				$pObj->couponObj->unsetSessionCoupons();
+				$basket->store_data();
+			}
+		}
 		
 		$pObj->couponNormal = $basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponNormalType']);
 		if(is_array($pObj->couponNormal)){
@@ -88,20 +117,17 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 		
 		$couponArticles = array_merge($pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponNormalType']), $pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponRelatedType']));
  
- 		
-		
-		
- 
+
 		foreach($couponArticles as $itemUid){
 			$basket->add_article($itemUid);
 		}
+
 		$basket->store_data();
 		
 				
 		## check for not-allowed quantity and minimum order value
 		foreach($basket->basket_items as $item => $itemObj){
-			if(intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponNormalType']) || intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponRelatedType'])){	// so it´s not normalTYPE, payment or delivery
-				
+			if(intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponNormalType']) || intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponRelatedType'])){	// so itï¿½s not normalTYPE, payment or delivery
 				if(intval($itemObj->quantity) != 1){
 					unset($basket->basket_items[$item]);
 					unset($GLOBALS['TSFE']->fe_user->sesData['coupons']);
@@ -109,12 +135,17 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 					$this->couponObj = new tx_commercecoupons_lib($this);
 					
 				}
-								
+			
 				foreach ($couponArticles as $currentCouponArticleUid) {
   			
 					$sessionCoupons = $GLOBALS['TSFE']->fe_user->sesData['coupons'];
+					if(!is_array($sessionCoupons)) {
+						$sessionCoupons = array();
+					}
 					$couponCodesArray = array();
+					$deleteAllCoupons = false;
 					foreach($sessionCoupons as $sc => $scObj){
+						
 							if($currentCouponArticleUid == intval($scObj['articleId'])){
 								$code = $scObj['code'];
 							}
@@ -125,23 +156,38 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 							}
 							
 							if($basket->getarticletypesumgross(1) < intval($row['limit_start'])){
-								
-								unset($basket->basket_items[$item]);
-								unset($GLOBALS['TSFE']->fe_user->sesData['coupons']);
-					
-								$this->couponObj = new tx_commercecoupons_lib($this);
+								$deleteAllCoupons = true;
 							}
 					}
+					
+					if($deleteAllCoupons) {
+						foreach($coupons as $coupon) {
+							if(isset($coupon['_addedArticles'])) {
+								foreach($coupon['_addedArticles'] as $actualArtUid => $relatedArticle) {
+									$basket->delete_article($actualArtUid);
+									unset($basket->basket_items[$actualArtUid]);
+								}
+							}
+							$basket->delete_article($coupon['articleId']);
+							unset($basket->basket_items[$coupon['articleId']]);
+						}
+						$GLOBALS['TSFE']->fe_user->setKey('ses','coupons','');
+						$pObj->couponObj = new tx_commercecoupons_lib($pObj);
+						$pObj->couponObj->unsetSessionCoupons();
+						$basket->store_data();
+					}	
 				}
 				
 				
 				
-				## call this to regenerate the coupon, so if it is percent, it will recalculate
-				## the price
-				$this->couponObj = new tx_commercecoupons_lib($basket);
+				
 				
 			}
 		}
+		
+		## call this to regenerate the coupon, so if it is percent, it will recalculate
+		## the price
+		$this->couponObj = new tx_commercecoupons_lib($basket);
 		
 	}
 
@@ -153,89 +199,90 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 	 */
 	function additionalMarker($markerArray, &$pObj){
 		
-		$article_id = $pObj->piVars['artAddUid'];
 		
-		if(is_array($article_id)){
-			foreach($article_id as $art => $aObj){
 		
-				if(intval($aObj['count']) == 0 || intval($aObj['count']) > 1){
-					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*','tx_commercecoupons_articles','article_id = '.$art.$GLOBALS['TSFE']->cObj->enableFields('tx_commercecoupons_articles'));
-					if($row = mysql_fetch_assoc($res)){
-						$couponArtUid = $pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponRelatedType']);
-						$pObj->basket->delete_article($couponArtUid[0]);
-						unset($basket->basket_items[$couponArtUid]);
-						unset($GLOBALS['TSFE']->fe_user->sesData['coupons']);
-						$pObj->couponObj = new tx_commercecoupons_lib($pObj);
-						$pObj->couponObj->unsetSessionCoupons();
-						$pObj->basket->store_data();
-					} 
+		
+		  $markerArray['###COUPON_VIEW###'] = '';	// display coupons in basket view
+  		  $couponArticles = array_merge($pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponNormalType']), $pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponRelatedType']));
+ 		
+		  $pObj->templateCodeCoupon = $pObj->cObj->fileResource($pObj->conf['couponBasketTemplateFile']);
+		  
+		  $couponTemplate = $pObj->cObj->getSubpart($pObj->templateCodeCoupon, '###COUPON_VIEW_IN_BASKET###');
+		  
+		  $minOrderValue = 0;
+		  $minValues = array();
+		  foreach ($couponArticles as $currentCouponArticleUid) {
+		  			
+				$sessionCoupons = $GLOBALS['TSFE']->fe_user->sesData['coupons'];
+				if(!is_array($sessionCoupons)) {
+					$sessionCoupons = array();
 				}
-			}
-		}
+				
+				$couponCodesArray = array();
+				$couponCodes = '';
+				foreach($sessionCoupons as $sc => $scObj){
+					$minValues[] = $scObj['record']['limit_start'];
+					if($currentCouponArticleUid == intval($scObj['articleId'])){
+						$couponCodesArray[] = $scObj['code'];
+					}
+				}
+				$couponCodes = implode(', ', $couponCodesArray);
+		  	  	
+			   $priceCoupons += $pObj->basket->basket_items[$currentCouponArticleUid]->get_item_sum_gross();
+			   $ma['###ARTICLE_TOTAL_PRICE###'] = tx_moneylib::format($pObj->basket->basket_items[$currentCouponArticleUid]->get_item_sum_gross(), $pObj->conf['currency']);
+			   $ma['###PRODUCT_TITLE###'] = $pObj->basket->basket_items[$currentCouponArticleUid]->article->get_title();
+			   $ma['###PRODUCT_DESCRIPTION###'] = $pObj->basket->basket_items[$currentCouponArticleUid]->product->get_description();
+			   $ma['###COUPON_CODES###'] = $couponCodes;
+			   if (!empty($pObj->basket->basket_items[$currentCoupnArticleUid]->tx_commercecoupons_addedbycouponid)) {
+			   $couponCode = $GLOBALS['TYPO3_DB']->exec_SELECTquery('code', 'tx_commercecoupons_coupons', 'article=' .$pObj->basket->basket_items[$currentCoupnArticleUid]->tx_commercecoupons_addedbycouponid);
+			   $couponCode = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($couponCode);
+			   
+			   $ma['###PRODUCT_TITLE###'] .= ' (' .$couponCode['code'] .')';
+			   }
+			   $markerArray['###COUPON_VIEW###'] .= $pObj->cObj->substituteMarkerArray($couponTemplate, $ma);
+		  }
+		  
+		  $markerArray['###COUPON_MIN_ORDERVALUE###'] = '';
+		  if(count($minValues)) {
+		  	rsort($minValues);
+		  	if($minValues[0] != 0) {
+		  		$orderValueTemplate = $pObj->cObj->getSubpart($pObj->templateCodeCoupon, '###COUPON_MINIMUMORDERVALUE###');
+		  		$mArray['###COUPON_MINIMUMORDER_VALUE###'] = tx_moneylib::format($minValues[0] ,$pObj->currency);
+		  		$markerArray['###COUPON_MIN_ORDERVALUE###'] = $pObj->cObj->substituteMarkerArray($orderValueTemplate, $mArray);
+		  	}
+		  }
+		  
+		  
+		  $price_gross2 = $pObj->basket->getArticleTypeSumGross(NORMALArticleType);
 		
-		$markerArray['###COUPON_VIEW###'] = '';	// display coupons in basket view
-  		$couponArticles = array_merge($pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponNormalType']), $pObj->basket->get_articles_by_article_type_uid_asuidlist($pObj->conf['couponRelatedType']));
- 
-  $pObj->templateCodeCoupon = $pObj->cObj->fileResource($pObj->conf['couponBasketTemplateFile']);
-  
-  $couponTemplate = $pObj->cObj->getSubpart($pObj->templateCodeCoupon, '###COUPON_VIEW_IN_BASKET###');
-
-  foreach ($couponArticles as $currentCouponArticleUid) {
-  			
-		$sessionCoupons = $GLOBALS['TSFE']->fe_user->sesData['coupons'];
+		  $priceSub = $price_gross2 + $priceCoupons; 	// this is the price_gross of all NORMAL Articles and the Coupons
+		  $markerArray['###BASKET_GROSS_PRICE_SUB###'] = tx_moneylib::format($priceSub,$pObj->currency);
 		
-		$couponCodesArray = array();
-		$couponCodes = '';
-		foreach($sessionCoupons as $sc => $scObj){
-			if($currentCouponArticleUid == intval($scObj['articleId'])){
-				$couponCodesArray[] = $scObj['code'];
-			}
-		}
-		$couponCodes = implode(', ', $couponCodesArray);
-  	  	
-	   $priceCoupons += $pObj->basket->basket_items[$currentCouponArticleUid]->get_item_sum_gross();
-	   $ma['###ARTICLE_TOTAL_PRICE###'] = tx_moneylib::format($pObj->basket->basket_items[$currentCouponArticleUid]->get_item_sum_gross(), $pObj->conf['currency']);
-	   $ma['###PRODUCT_TITLE###'] = $pObj->basket->basket_items[$currentCouponArticleUid]->article->get_title();
-	   $ma['###PRODUCT_DESCRIPTION###'] = $pObj->basket->basket_items[$currentCouponArticleUid]->product->get_description();
-	   $ma['###COUPON_CODES###'] = $couponCodes;
-	   if (!empty($pObj->basket->basket_items[$currentCoupnArticleUid]->tx_commercecoupons_addedbycouponid)) {
-	   $couponCode = $GLOBALS['TYPO3_DB']->exec_SELECTquery('code', 'tx_commercecoupons_coupons', 'article=' .$pObj->basket->basket_items[$currentCoupnArticleUid]->tx_commercecoupons_addedbycouponid);
-	   $couponCode = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($couponCode);
-	   
-	   $ma['###PRODUCT_TITLE###'] .= ' (' .$couponCode['code'] .')';
-	   }
-	   $markerArray['###COUPON_VIEW###'] .= $pObj->cObj->substituteMarkerArray($couponTemplate, $ma);
-  }
-
-  $price_gross2 = $pObj->basket->getArticleTypeSumGross(NORMALArticleType);
-  $priceSub = $price_gross2 + $priceCoupons; 	// this is the price_gross of all NORMAL Articles and the Coupons
-  $markerArray['###BASKET_GROSS_PRICE_SUB###'] = tx_moneylib::format($priceSub,$pObj->currency);
-
-  $markerArray['###COUPON_FORMSTART###']  = '
-   <form name="coupon" action="'.$pObj->pi_getPageLink($pObj->conf['basketPid']).'" method="get">
-   <input type="hidden" name="id" value="'.$pObj->conf['basketPid'].'" />
-  ';
-
-  $markerArray['###DISCOUNTCOUPON_FORMSTART###']  = '
-   <form name="discountcoupon" action="'.$pObj->pi_getPageLink($pObj->conf['basketPid']).'" method="get">
-   <input type="hidden" name="id" value="'.$pObj->conf['basketPid'].'" />
-  ';
-
-  #$discountCoupons = $this->couponObj->getSessionCoupons_discountOnly();
-
-   // deaktiviert, weil discountcoupons noch nicht implementiert sind
-  if(false && is_array($discountCoupons) && count($discountCoupons)) {
-    $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = 'display:none;';
-    $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = '';
-
-   list(,$discountCoupon) = each($discountCoupons);
-          # $markerArray['###DISCOUNTCOUPON_DETAILS###']  = 'Sie haben Ihren Rabattcoupon mit dem Couponcode "'.$discountCoupon['code'].'" eingel&ouml;st.';
-  } else {
-   $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = '';
-   $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = 'display:none;';
-  }
- 
-  return $markerArray;
+		  $markerArray['###COUPON_FORMSTART###']  = '
+		   <form name="coupon" action="'.$pObj->pi_getPageLink($pObj->conf['basketPid']).'" method="get">
+		   <input type="hidden" name="id" value="'.$pObj->conf['basketPid'].'" />
+		  ';
+		
+		  $markerArray['###DISCOUNTCOUPON_FORMSTART###']  = '
+		   <form name="discountcoupon" action="'.$pObj->pi_getPageLink($pObj->conf['basketPid']).'" method="get">
+		   <input type="hidden" name="id" value="'.$pObj->conf['basketPid'].'" />
+		  ';
+		
+		  #$discountCoupons = $this->couponObj->getSessionCoupons_discountOnly();
+		
+		   // deaktiviert, weil discountcoupons noch nicht implementiert sind
+		  if(false && is_array($discountCoupons) && count($discountCoupons)) {
+		    $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = 'display:none;';
+		    $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = '';
+		
+		   list(,$discountCoupon) = each($discountCoupons);
+		          # $markerArray['###DISCOUNTCOUPON_DETAILS###']  = 'Sie haben Ihren Rabattcoupon mit dem Couponcode "'.$discountCoupon['code'].'" eingel&ouml;st.';
+		  } else {
+		   $markerArray['###DISCOUNTCOUPON_FORM_STYLE###']  = '';
+		   $markerArray['###DISCOUNTCOUPON_MESSAGE_STYLE###']  = 'display:none;';
+		  }
+		 
+		  return $markerArray;
 	}
 
 }

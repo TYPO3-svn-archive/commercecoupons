@@ -46,11 +46,8 @@
 		$this->conf=$conf;
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
-		debug('step');
 		tx_commerce_div::initializeFeUserBasket();
-		debug('step');
 		$this->couponObj = new tx_commercecoupons_lib($this);
-		debug('step');
 		$this->template = $this->cObj->fileResource($this->conf["templateFile"]);
 		if($this->piVars['step']) $this->step = $this->piVars['step'];
 		if(!$this->step) $this->step = $this->conf['step'];
@@ -65,7 +62,7 @@
 	 */
 	function main($content,$conf)	{
 		$this->init($conf);
-#debug($this->conf);
+#debug($this->step);
 		switch ($this->step){
 			case 'couponForm' :
 				#$this->couponObj->unsetSessionCoupons();
@@ -86,6 +83,7 @@
 	function showCouponForm(){
 		$this->sess_id = $this->couponObj->basket->sess_id;
 		$template = $this->cObj->getSubpart($this->template,'###COUPON_FORM###');
+		
 		$markerArray = $this->markerArray;
 		$markerArray['###URL###'] = $this->pi_getPageLink($GLOBALS['TSFE']->id);
 		
@@ -98,7 +96,7 @@
 		
 		
 		$content = $this->cObj->substituteMarkerArrayCached($template,$markerArray , array());
-
+		
 		return $content;
 	}
 
@@ -111,7 +109,7 @@
 		$codeData = $this->couponObj->addCoupon($code);
 #debug($this->piVars,'__piVars__');
 #debug($this->couponObj->addCoupon($code),'__ADDED__');
-debug($codeData,'__ADDED__');
+#debug($codeData,'__ADDED__');
 
  		if(is_array($codeData)){
  			
@@ -141,15 +139,17 @@ debug($codeData,'__ADDED__');
 			// from Ralf Merz, taking an content element to configure error-message-text
 			$template = $this->cObj->getSubpart($this->template,'###COUPON_ERROR###');
 			$markerArray = $this->markerArray;
+			#debug($markerArray);
 			$markerArray['###URL###'] = $this->pi_getPageLink($GLOBALS['TSFE']->id);
 			
 			$errorLink = $this->pi_linkToPage($this->pi_getLL('errorLink'),$this->conf['errorPID'],$target = '',$urlParameters = array());
- 			$markerArray['###ERRORLINK###'] = $this->pi_getLL('errorLinkBefor').$errorLink.$this->pi_getLL('errorLinkAfter');
+ 			$markerArray['###ERRORLINK###'] = $this->pi_getLL('errorLinkBefore').$errorLink.$this->pi_getLL('errorLinkAfter');
  			$markerArray['###HEADER###'] = $this->pi_getLL('errorHeader');
  			$markerArray['###BACKLINK###'] = '<a href="javascript:history.back();" title="'.$this->pi_getLL('back').'">'.$this->pi_getLL('back').'</a>';
 		
-			$markerArray['###COUPON_ERROR_TEXT###'] = $this->cObj->cObjGetSingle($this->conf['errorText'],$this->conf['errorText.']);
-		
+			$markerArray['###COUPON_ERROR_TEXT###'] = $this->pi_getLL('couponError' . $codeData);
+			#$markerArray['###COUPON_ERROR_TEXT###'] = $this->cObj->cObjGetSingle($this->conf['errorText'],$this->conf['errorText.']);
+		#debug($markerArray);
 			
 		
 		
@@ -245,7 +245,6 @@ debug($codeData,'__ADDED__');
 			$markerArray['###LINKTOBASKET###'] = '<a href="'.$this->pi_getPageLink($this->conf['basketPid']).'" title="'.$this->pi_getLL('backToBasket').'">'.$this->pi_getLL('backToBasket').'</a>';
 			$markerArray['###SUMME###'] = tx_moneylib::format($coupon['price_net']*(-1),'EUR');
 			$markerArray['###PRICE_SEARCH_LINK###'] = $this->pi_getPageLink($this->conf['priceSearchPid'],'',array('tx_commercelistview_pi1[price]'=>$priceSearch_form.'00_'.$priceSearch_to.'00_'.$priceSearch_form.'-'.$priceSearch_to.' Euro','tx_commercelistview_pi1[showResults]'=>1));
-			
 			$markerArray['###MAIN_COUPON_WITHOUT_ARTICLES_TEXT###'] = $this->cObj->cObjGetSingle($this->conf['couponWithoutArticleText'],$this->conf['couponWithoutArticleText.']);
 		
 			return $this->cObj->substituteMarkerArrayCached($template,$markerArray , array());

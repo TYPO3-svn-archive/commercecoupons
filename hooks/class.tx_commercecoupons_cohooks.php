@@ -1,5 +1,6 @@
 <?php
-
+ require_once(t3lib_extMgm::extPath('commerce_coupons').'lib/class.tx_commercecoupons_lib.php');
+ require_once(t3lib_extmgm::extPath('commerce').'lib/class.tx_commerce_div.php');
 /**
  * This class implements coupons in the checkout of the commerce basket
  */
@@ -74,7 +75,7 @@ class tx_commercecoupons_cohooks {
 	  }
 	
 	  $price_gross2 = $pObj->basket->getArticleTypeSumGross(NORMALArticleType);
-	  $priceSub = $price_gross2 - $priceCoupons -$priceDel;
+	  $priceSub = $price_gross2 + $priceCoupons;
 	  $markerArray['###BASKET_GROSS_PRICE_SUB###'] = tx_moneylib::format($priceSub,$pObj->currency);
 	
 	  $markerArray['###COUPON_FORMSTART###']  = '

@@ -1,4 +1,20 @@
 (add new changes on top of this file)
+08-01-31 Joerg Sprung <joerg.sprung @eddata.de>
+    * Fixed bug with calculating Price in checkout listing
+    * Fixed bug with valuevoupons canging their value while changing amount of regular articles in basket
+
+08-01-31 Ingo Schmitt <is@marketing-factory.de>
+    * Changed Coupon Value -> > to >=
+    * Fixed display of Icons in Coupond display
+
+08-01-30 Ingo Schmitt <is@marketing-factory.de>
+    * Created recordset Icons
+    * Changed Clickmenue to just edit
+    * Deleted articles removed from article selector
+
+08-01-25 Ingo Schmitt 	<is@marketing-factory.de>
+    * Chenged XML Locallang tags for a better preview
+    * Added Missing fileds in locallang and TCA
 
 05-12-11 Thomas Hempel  <thomas@typo3-unleashed.net>
 
