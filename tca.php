@@ -177,6 +177,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				),
 				"size" => 1,	
 				"maxitems" => 1,
+				'default' => 'money',	
 			)
 		),
 		'newpid' => Array (
