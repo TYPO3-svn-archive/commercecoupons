@@ -75,11 +75,48 @@ $tempColumns = Array (
 			'userFunc' => 'user_couponsedit_func->activate_coupons',
 		    ),
 		),
+		
+		"tx_commercecoupons_include_exclude_category" => Array (        ## WOP:[fields][1][fields][1][fieldname]
+        "exclude" => 0,        ## WOP:[fields][1][fields][1][excludeField]
+        "label" => "LLL:EXT:commerce_coupons/locallang_db.xml:tx_commercecoupons_coupons.tx_commercecoupons_include_exclude_category",        ## WOP:[fields][1][fields][1][title]
+        "config" => Array (
+            "type" => "check",
+        )
+    ),
+    "tx_commercecoupons_related_categories" => Array (        ## WOP:[fields][1][fields][2][fieldname]
+        "exclude" => 0,        ## WOP:[fields][1][fields][2][excludeField]
+        "label" => "LLL:EXT:commerce_coupons/locallang_db.xml:tx_commercecoupons_coupons.tx_commercecoupons_related_categories",        ## WOP:[fields][1][fields][2][title]
+        "config" => Array (
+            "type" => "select",    ## WOP:[fields][1][fields][2][conf_rel_type]
+            "foreign_table" => " tx_commerce_categories",    ## WOP:[fields][1][fields][2][conf_rel_table]
+            "foreign_table_where" => "ORDER BY  tx_commerce_categories.uid",    ## WOP:[fields][1][fields][2][conf_rel_type]
+            "size" => 10,    ## WOP:[fields][1][fields][2][conf_relations_selsize]
+            "minitems" => 0,
+            "maxitems" => 100,    ## WOP:[fields][1][fields][2][conf_relations]
+            "wizards" => Array(
+                "_PADDING" => 2,
+                "_VERTICAL" => 1,
+                ## WOP:[fields][1][fields][2][conf_wiz_listrec]
+                "list" => Array(
+                    "type" => "script",
+                    "title" => "List",
+                    "icon" => "list.gif",
+                    "params" => Array(
+                        "table"=>" tx_commerce_categories",
+                        "pid" => "###CURRENT_PID###",
+                    ),
+                    "script" => "wizard_list.php",
+                ),
+            ),
+        )
+    ),
+		
 );
 
 t3lib_div::loadTCA('tx_commerce_orders');
 t3lib_extMgm::addTCAcolumns('tx_commerce_orders',$tempColumns,1);
 t3lib_extMgm::addToAllTCAtypes('tx_commerce_orders','--div--;LLL:EXT:commerce_coupons/locallang_db.php:tx_commerce_orders.coupons,coupon_list, activate_coupons');
+t3lib_extMgm::addToAllTCAtypes("tx_commercecoupons_coupons","tx_commercecoupons_include_exclude_category;;;;1-1-1, tx_commercecoupons_related_categories");
 
  if (TYPO3_MODE=='BE')
  {

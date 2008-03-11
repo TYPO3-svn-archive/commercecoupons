@@ -36,6 +36,8 @@
 			<label index="tx_commercecoupons_coupons.related_articles">Related Article</label>
             <label index="tx_commerce_orders.coupon_list">Coupon list</label>
             <label index="tx_commerce_orders.activate_coupons">Activate coupons</label>
+            <label index="tx_commercecoupons_coupons.include_exclude_category">include or exclude selected categories</label>
+            <label index="tx_commercecoupons_coupons.related_categories">Choose categories to in- or exclude</label>
         </languageKey>
         <languageKey index="de" type="array">
             <label index="tx_commercecoupons_coupons">Gutscheine</label>
@@ -64,6 +66,8 @@
 			<label index="tx_commercecoupons_coupons.related_articles">Zugeordneter Wertartikel</label>
             <label index="tx_commerce_orders.coupon_list">Gutscheine</label>
             <label index="tx_commerce_orders.activate_coupons">Gutscheine aktivieren</label>
+            <label index="tx_commercecoupons_coupons.include_exclude_category">Kategorien ausschliessen?</label>
+            <label index="tx_commercecoupons_coupons.related_categories">Ein- oder auszuschliessende Kategorien</label>
         </languageKey>
     </data>
     <orig_hash type="array">

@@ -27,6 +27,8 @@ CREATE TABLE tx_commercecoupons_coupons (
 	limit_start int(11) DEFAULT '0' NOT NULL,
 	limit_end int(11) DEFAULT '0' NOT NULL,
 	order_id varchar(80) DEFAULT '' NOT NULL,
+	include_exclude_category tinyint(3) DEFAULT '0' NOT NULL,
+    related_categories blob NOT NULL
 	
 	
 	PRIMARY KEY (uid),

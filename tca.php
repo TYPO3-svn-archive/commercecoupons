@@ -6,7 +6,7 @@ require_once(t3lib_extMgm::extPath('commerce_coupons') .'class.tx_commercecoupon
 $TCA["tx_commercecoupons_coupons"] = Array (
 	"ctrl" => $TCA["tx_commercecoupons_coupons"]["ctrl"],
 	"interface" => Array (
-		"showRecordFieldList" => "deleted,hidden,starttime,endtime,fe_group,code,amount,article,count,type,limit_start,limit_end,newpid"
+		"showRecordFieldList" => "deleted,hidden,starttime,endtime,fe_group,code,amount,article,count,type,limit_start,limit_end,newpid,include_exclude_category,related_categories"
 	),
 	"feInterface" => $TCA["tx_commercecoupons_coupons"]["feInterface"],
 	"columns" => Array (
@@ -205,6 +205,29 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"userFunc" => "tx_commercecoupons_fields->calculate_price",
 			)
 		),
+		"include_exclude_category" => Array (
+			"exclude" => 1,
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.include_exclude_category",
+			"config" => Array (
+				"type" => "check",
+				"default" => 1,
+			)
+		),
+		"related_categories" => Array (
+			"exclude" => 1,
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.related_categories",
+			"config" => Array (
+				"type" => "select",
+				"items" => Array (
+					Array("LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.type.I.0", "money"),
+					Array("LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.type.I.1", "percent"),
+					Array("LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.type.I.2", "article"),
+				),
+				"size" => 1,	
+				"maxitems" => 1,
+				'default' => 'money',
+			)
+		),		
 		"has_articles" => Array (
 		    "exclude" => 1,
     	   	"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.has_articles",
@@ -257,7 +280,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 	),
 	"types" => Array (
 		"0" => Array("showitem" => "
-		    ---div---;Coupon,hidden;;1;;1-1-1, code, amount_net,amount_gross, article, count, type, amount_percent, order_id,  newpid, limit_start, limit_end, has_articles,first_name,last_name,
+		    ---div---;Coupon,hidden;;1;;1-1-1, code, amount_net,amount_gross, article, count, type, amount_percent, order_id,  newpid, limit_start, limit_end, include_exclude_category, related_categories, has_articles,first_name,last_name,
 		    ---div---;Artikel,related_articles;;;;1-1-1"
 		)
 	),
