@@ -217,15 +217,19 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 			"exclude" => 1,
 			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.related_categories",
 			"config" => Array (
-				"type" => "select",
-				"items" => Array (
-					Array("LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.type.I.0", "money"),
-					Array("LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.type.I.1", "percent"),
-					Array("LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.type.I.2", "article"),
+				"type" => "group",
+				'internal_type' => 'db',
+				'allowed' => 'tx_commerce_categories',
+				'form_type' => 'user',
+				'userFunc' => 'tx_graytree_tceFunc->getSingleField_selectTree',
+				'treeView' => 1,
+				'treeClass' => 'tx_commerce_tceFunc_categoryTree',
+				'leafInfoArray' => Array (
 				),
-				"size" => 1,	
-				"maxitems" => 1,
-				'default' => 'money',
+				'size' => 7,
+				'autoSizeMax' => 10,
+				'minitems' => 1,
+				'maxitems' => 100,
 			)
 		),		
 		"has_articles" => Array (

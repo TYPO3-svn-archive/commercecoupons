@@ -75,13 +75,13 @@ class user_couponsedit_func {
  	
  	function coupon_status(&$data, &$pObj)	{
 		tx_commerce_create_folder::init_folders();
-		
+		debug($data['config']['foreign_table'], 'in order_couponlist');
 		$data['items'] = array();
 		
 		# Find the right pid for the Couponsfolder 
 
 		$couponPid = array_unique(tx_graytree_folder_db::initFolders('Coupons', 'commerce', 0, 'Commerce'));
- 		
+ 		debug($couponPid[0], 'couponPid');
  		$result=$GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $data['config']['foreign_table'], 'pid=' .$couponPid[0] .t3lib_BEfunc::deleteClause($data['config']['foreign_table']));
  		if ($GLOBALS['TYPO3_DB']->sql_num_rows($result) > 0)	{
  			while ($return_data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result))	{
