@@ -290,6 +290,47 @@ class tx_commercecoupons_lib {
 			if(intval($row['count']) > 0 || intval($row['count']) == -1){
 				$calculationPrice = $this->calculatePriceForRabatt();
 				#debug(array($row,$calculationPrice));
+				
+				$normalArticles = $this->basket->get_articles_by_article_type_uid_asuidlist(1);
+				#debug($normalArticles, 'normale Artikel');
+				
+				#debug($this->basket->basket_items);
+				// get parent categories of articles in the basket
+				$parentCategories = array();
+				foreach($this->basket->basket_items as $item) {
+					if(intval($item->article->article_type_uid) == 1 ) {	// only normal Article Types
+						$parentCategories[] = $item->product->get_parent_categories();
+						$parentCategories[][] = $item->product->getmasterparentcategorie();
+					}	
+				}
+				debug($parentCategories, 'parentCategories of normal Articles');
+				
+				$relatedCategories = explode(',', $row['related_categories']);
+				debug($relatedCategories, 'relatedCategories');
+				
+				debug($row['include_exclude_category']);
+																
+				// here we check if the articles in the basket belong
+				// to the categories selected for the coupon
+				if(intval($row['include_exclude_category']) == 0) { // categories will be excluded
+					$row['related_categories'];
+				
+				} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
+					foreach($parentCategories as $catUid) {
+						if(in_array($catUid[0], $relatedCategories)) {
+							$catOK[] = true; 
+							debug($catUid, 'category is included');
+						}
+						#debug($catUid, 'ausserhalb IF category is included');
+					}
+				}
+				
+				if(in_array(true, $catOK)) {
+					debug('OK');
+				}
+				
+				#debug($row, 'Felder aus DB');
+				
 				if(($row['limit_start'] <= $calculationPrice['gross'] || $row['limit_start'] == 0)){	
 					$couponData = array();
 					# $calculationPrice = $this->calculatePriceForRabatt();

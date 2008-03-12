@@ -228,7 +228,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				),
 				'size' => 7,
 				'autoSizeMax' => 10,
-				'minitems' => 1,
+				'minitems' => 0, 
 				'maxitems' => 100,
 			)
 		),		
