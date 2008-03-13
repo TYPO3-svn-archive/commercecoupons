@@ -294,13 +294,15 @@ class tx_commercecoupons_lib {
 				$normalArticles = $this->basket->get_articles_by_article_type_uid_asuidlist(1);
 				#debug($normalArticles, 'normale Artikel');
 				
-				#debug($this->basket->basket_items);
+				debug($this->basket->basket_items, 'basket items');
 				// get parent categories of articles in the basket
 				$parentCategories = array();
 				foreach($this->basket->basket_items as $item) {
+					debug($item->product->uid);
 					if(intval($item->article->article_type_uid) == 1 ) {	// only normal Article Types
-						$parentCategories[] = $item->product->get_parent_categories();
-						$parentCategories[][] = $item->product->getmasterparentcategorie();
+						#$parentCategories[] = $item->product->conn_db->get_parent_categories($item->product->uid);
+						$parentCategories[] = $item->product->conn_db->get_parent_categories($item->product->uid);
+						$parentCategories[][] = $item->product->getMasterparentCategorie();
 					}	
 				}
 				debug($parentCategories, 'parentCategories of normal Articles');
@@ -316,6 +318,7 @@ class tx_commercecoupons_lib {
 					$row['related_categories'];
 				
 				} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
+					$catOK = array();
 					foreach($parentCategories as $catUid) {
 						if(in_array($catUid[0], $relatedCategories)) {
 							$catOK[] = true; 
