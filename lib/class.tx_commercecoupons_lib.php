@@ -31,6 +31,7 @@
 /**
  * tx_commerce includes
  */
+require_once(PATH_txcommerce.'lib/class.tx_commerce_category.php');
 
 define('ERROR_COUPON_CODEMISSING',1);
 define('ERROR_COUPON_EXISTS',2);
@@ -294,18 +295,25 @@ class tx_commercecoupons_lib {
 				$normalArticles = $this->basket->get_articles_by_article_type_uid_asuidlist(1);
 				#debug($normalArticles, 'normale Artikel');
 				
-				debug($this->basket->basket_items, 'basket items');
+				$categoryObject = new tx_commerce_category();
+				
+				
+				#debug($this->basket->basket_items, 'basket items');
 				// get parent categories of articles in the basket
 				$parentCategories = array();
+				
 				foreach($this->basket->basket_items as $item) {
-					debug($item->product->uid);
+					#debug($item->product->uid);
 					if(intval($item->article->article_type_uid) == 1 ) {	// only normal Article Types
 						#$parentCategories[] = $item->product->conn_db->get_parent_categories($item->product->uid);
-						$parentCategories[] = $item->product->conn_db->get_parent_categories($item->product->uid);
-						$parentCategories[][] = $item->product->getMasterparentCategorie();
+						$parentCategories = $item->product->conn_db->get_parent_categories($item->product->uid);
+						$categoryObject->init($parentCategories);
+						$categoryObject->load_data();
+						$catUidlist = array_merge($catUidlist,$categoryObject->get_categorie_rootline_uidlist());
+						#$parentCategories[][] = $item->product->getMasterparentCategorie();
 					}	
 				}
-				debug($parentCategories, 'parentCategories of normal Articles');
+				debug($catUidlist, 'parentCategories of normal Articles');
 				
 				$relatedCategories = explode(',', $row['related_categories']);
 				debug($relatedCategories, 'relatedCategories');
