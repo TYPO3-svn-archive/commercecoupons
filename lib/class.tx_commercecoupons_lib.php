@@ -290,35 +290,26 @@ class tx_commercecoupons_lib {
 
 			if(intval($row['count']) > 0 || intval($row['count']) == -1){
 				$calculationPrice = $this->calculatePriceForRabatt();
-				#debug(array($row,$calculationPrice));
-				
-				$normalArticles = $this->basket->get_articles_by_article_type_uid_asuidlist(1);
-				#debug($normalArticles, 'normale Artikel');
-				
+							
 				$categoryObject = new tx_commerce_category();
 				
-				
-				#debug($this->basket->basket_items, 'basket items');
 				// get parent categories of articles in the basket
-				$parentCategories = array();
-				
 				foreach($this->basket->basket_items as $item) {
-					#debug($item->product->uid);
 					if(intval($item->article->article_type_uid) == 1 ) {	// only normal Article Types
-						#$parentCategories[] = $item->product->conn_db->get_parent_categories($item->product->uid);
-						$parentCategories = $item->product->conn_db->get_parent_categories($item->product->uid);
-						$categoryObject->init($parentCategories);
-						$categoryObject->load_data();
-						$catUidlist = array_merge($catUidlist,$categoryObject->get_categorie_rootline_uidlist());
-						#$parentCategories[][] = $item->product->getMasterparentCategorie();
+						$parentCategory = $item->product->getMasterparentCategorie();		// get_parent_category($item->product->uid);
+						
+						$categoryObject->init($parentCategory);
+						#$categoryObject->load_data();
+						$catUidlist = array_unique(array_merge($catUidlist,$categoryObject->get_categorie_rootline_uidlist()));
 					}	
 				}
-				debug($catUidlist, 'parentCategories of normal Articles');
+				debug($parentCategory, 'parent Categories');
+				debug($catUidlist, 'cat UID list');
 				
 				$relatedCategories = explode(',', $row['related_categories']);
 				debug($relatedCategories, 'relatedCategories');
 				
-				debug($row['include_exclude_category']);
+				debug($row['include_exclude_category'], '1 = include, 0 = exclude');
 																
 				// here we check if the articles in the basket belong
 				// to the categories selected for the coupon
@@ -327,17 +318,19 @@ class tx_commercecoupons_lib {
 				
 				} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
 					$catOK = array();
-					foreach($parentCategories as $catUid) {
-						if(in_array($catUid[0], $relatedCategories)) {
+					foreach($catUidlist as $catUid) {
+						if(in_array($catUid, $relatedCategories)) {
 							$catOK[] = true; 
 							debug($catUid, 'category is included');
+						} else {
+							debug($catUid, 'this article is not in the categoryIncludeList');
 						}
 						#debug($catUid, 'ausserhalb IF category is included');
 					}
 				}
 				
 				if(in_array(true, $catOK)) {
-					debug('OK');
+					debug($catOK, 'OK');
 				}
 				
 				#debug($row, 'Felder aus DB');
