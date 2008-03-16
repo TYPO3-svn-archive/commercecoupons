@@ -226,7 +226,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				'treeClass' => 'tx_commerce_tceFunc_categoryTree',
 				'leafInfoArray' => Array (
 				),
-				'size' => 7,
+				'size' => 15,
 				'autoSizeMax' => 10,
 				'minitems' => 0, 
 				'maxitems' => 100,

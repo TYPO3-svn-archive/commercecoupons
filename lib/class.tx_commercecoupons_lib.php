@@ -289,52 +289,62 @@ class tx_commercecoupons_lib {
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 
 			if(intval($row['count']) > 0 || intval($row['count']) == -1){
+				// get the sums of the articles (normalType)
 				$calculationPrice = $this->calculatePriceForRabatt();
-							
-				$categoryObject = new tx_commerce_category();
-				
+								
+				$i = 0;
 				// get parent categories of articles in the basket
 				foreach($this->basket->basket_items as $item) {
+					$catUidList = array();
+					$categoryObject = new tx_commerce_category();
 					if(intval($item->article->article_type_uid) == 1 ) {	// only normal Article Types
 						$parentCategory = $item->product->getMasterparentCategorie();		// get_parent_category($item->product->uid);
-						
 						$categoryObject->init($parentCategory);
-						#$categoryObject->load_data();
-						$catUidlist = array_unique(array_merge($catUidlist,$categoryObject->get_categorie_rootline_uidlist()));
+						$categoryObject->load_data();
+						
+						$catUidList = array_merge($catUidList,$categoryObject->get_categorie_rootline_uidlist());
+						$articles[$i] = array(
+							'title' => $item->article->title,
+							'prodUid' => $item->product->uid,
+							'artUid' => $item->article->uid,
+							'catUidList' => $catUidList,
+							'price' => array(
+								'net' => $item->article->price->price_net,
+								'gross' => $item->article->price->price_gross,
+							),
+						);
+						$i++;
 					}	
 				}
-				debug($parentCategory, 'parent Categories');
-				debug($catUidlist, 'cat UID list');
-				
+								
 				$relatedCategories = explode(',', $row['related_categories']);
-				debug($relatedCategories, 'relatedCategories');
-				
-				debug($row['include_exclude_category'], '1 = include, 0 = exclude');
 																
 				// here we check if the articles in the basket belong
 				// to the categories selected for the coupon
-				if(intval($row['include_exclude_category']) == 0) { // categories will be excluded
-					$row['related_categories'];
 				
-				} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
-					$catOK = array();
-					foreach($catUidlist as $catUid) {
+				$catOK = array();
+				$artPrice = array();
+				foreach($articles as $singleArticle) {
+					
+					foreach($singleArticle['catUidList'] as $catUid) {
+						
 						if(in_array($catUid, $relatedCategories)) {
-							$catOK[] = true; 
-							debug($catUid, 'category is included');
-						} else {
-							debug($catUid, 'this article is not in the categoryIncludeList');
-						}
-						#debug($catUid, 'ausserhalb IF category is included');
+							if(intval($row['include_exclude_category']) == 0) { // categories will be excluded
+								$catOK[] = true; 
+								
+								$calculationPrice['gross'] = $calculationPrice['gross'] - intval($singleArticle['price']['gross']);
+								$calculationPrice['net'] = $calculationPrice['net'] - intval($singleArticle['price']['net']);
+								
+							} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
+								$catOK[] = true;
+								
+								$artPrice['gross'] += intval($singleArticle['price']['gross']);
+								$artPrice['net'] += intval($singleArticle['price']['net']);
+							}
+						} 
 					}
 				}
-				
-				if(in_array(true, $catOK)) {
-					debug($catOK, 'OK');
-				}
-				
-				#debug($row, 'Felder aus DB');
-				
+							
 				if(($row['limit_start'] <= $calculationPrice['gross'] || $row['limit_start'] == 0)){	
 					$couponData = array();
 					# $calculationPrice = $this->calculatePriceForRabatt();
@@ -345,8 +355,15 @@ class tx_commercecoupons_lib {
 							$couponData['price_net']   = 	- intval($row['limit_end'])/1.19;		// *($row['amount_percent']/10))/1.19;		// quotient was 100 originally
 							$couponData['price_gross'] = 	- intval($row['limit_end']);		// *($row['amount_percent']/10)));
 						}else{
-							$couponData['price_net']   = 	- intval($calculationPrice['net']*($row['amount_percent']/100)); ## - $row['limit_end'];		//
-							$couponData['price_gross'] =  - intval($calculationPrice['gross']*($row['amount_percent']/100)); ##  - $row['limit_end'];			//
+							
+							if(count($artPrice) > 0) {
+								$couponData['price_net']   = 	- intval($artPrice['net']*($row['amount_percent']/100));
+								$couponData['price_gross'] =  - intval($artPrice['gross']*($row['amount_percent']/100));
+							} else {
+								$couponData['price_net']   = 	- intval($calculationPrice['net']*($row['amount_percent']/100)); ## - $row['limit_end'];		//
+								$couponData['price_gross'] =  - intval($calculationPrice['gross']*($row['amount_percent']/100)); ##  - $row['limit_end'];			//
+							}
+							
 						}
 					} else {
 						$couponData['price_net']   = -$row['amount_net'];
@@ -363,6 +380,7 @@ class tx_commercecoupons_lib {
 				}
 			} 
 		}
+		
 		return $couponData;
 	}
 
