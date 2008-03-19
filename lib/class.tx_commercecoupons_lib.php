@@ -324,24 +324,26 @@ class tx_commercecoupons_lib {
 				
 				$catOK = array();
 				$artPrice = array();
-				foreach($articles as $singleArticle) {
-					
-					foreach($singleArticle['catUidList'] as $catUid) {
+				if(is_array($articles)) {
+					foreach($articles as $singleArticle) {
 						
-						if(in_array($catUid, $relatedCategories)) {
-							if(intval($row['include_exclude_category']) == 0) { // categories will be excluded
-								$catOK[] = true; 
-								
-								$calculationPrice['gross'] = $calculationPrice['gross'] - intval($singleArticle['price']['gross']);
-								$calculationPrice['net'] = $calculationPrice['net'] - intval($singleArticle['price']['net']);
-								
-							} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
-								$catOK[] = true;
-								
-								$artPrice['gross'] += intval($singleArticle['price']['gross']);
-								$artPrice['net'] += intval($singleArticle['price']['net']);
-							}
-						} 
+						foreach($singleArticle['catUidList'] as $catUid) {
+							
+							if(in_array($catUid, $relatedCategories)) {
+								if(intval($row['include_exclude_category']) == 0) { // categories will be excluded
+									$catOK[] = true; 
+									
+									$calculationPrice['gross'] = $calculationPrice['gross'] - intval($singleArticle['price']['gross']);
+									$calculationPrice['net'] = $calculationPrice['net'] - intval($singleArticle['price']['net']);
+									
+								} elseif(intval($row['include_exclude_category']) == 1) { // categories will be included
+									$catOK[] = true;
+									
+									$artPrice['gross'] += intval($singleArticle['price']['gross']);
+									$artPrice['net'] += intval($singleArticle['price']['net']);
+								}
+							} 
+						}
 					}
 				}
 							
