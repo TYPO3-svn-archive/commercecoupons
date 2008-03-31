@@ -166,7 +166,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 	 */
 	function main()	{
 		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
-		debug($BACK_PATH, 'backpath');
+		#debug($BACK_PATH, 'backpath');
 
 		// Access check!
 		// The page will show only if there is a valid page and if this page may be viewed by the user
@@ -208,7 +208,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 
 			// Render content:
 			$this->moduleContent();
-			debug('after moduleContent');
+			#debug('after moduleContent');
 
 			// ShortCut
 			if ($BE_USER->mayMakeShortcut())	{
@@ -234,7 +234,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 	 */
 	function printContent()	{
 		//$this->content.=$this->doc->small();
-		debug('in printContent');
+		#debug('in printContent');
 		$this->content.=$this->doc->endPage();
 		echo $this->content;
 
@@ -416,7 +416,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 				#	"POST:".t3lib_div::view_array($_POST)."<BR>".
 				#	"";
 				$this->content.=$this->doc->section($LANG->getLL("CustomerData"),$content,0,1);
-				debug('moduleContent case1');
+				#debug('moduleContent case1');
 			break;
 			case 2:
 			
@@ -470,12 +470,12 @@ class tx_commerce_coupons extends t3lib_SCbase {
 				}
 
 				$this->content.=$this->doc->section($LANG->getLL("Coupon Data"),$content,0,1);
-				debug('moduleContent case2');
+				#debug('moduleContent case2');
 			break;
 			case 3:
 				$content.="<div align=center><strong>Menu item #3...</strong></div>";
 				$this->content.=$this->doc->section("Message #3:",$content,0,1);
-				debug('moduleContent case3');
+				#debug('moduleContent case3');
 			break;
 		}
 	}
@@ -489,7 +489,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 		global $BE_USER,$LANG,$BACK_PATH,$TCA,$TYPO3_CONF_VARS,$CLIENT;	
 		$this->table='tx_commercecoupons_coupons';
 		
-		debug('in couponsList');
+		#debug('in couponsList');
 
 		//Doppelt Initalisiert
 		//$this->content='';

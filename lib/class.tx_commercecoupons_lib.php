@@ -316,9 +316,10 @@ class tx_commercecoupons_lib {
 						$i++;
 					}	
 				}
+				#debug($articles, 'articles array');
 								
 				$relatedCategories = explode(',', $row['related_categories']);
-																
+																								
 				// here we check if the articles in the basket belong
 				// to the categories selected for the coupon
 				
@@ -330,6 +331,8 @@ class tx_commercecoupons_lib {
 						foreach($singleArticle['catUidList'] as $catUid) {
 							
 							if(in_array($catUid, $relatedCategories)) {
+								#debug($catUid, 'catUid');
+								#debug($relatedCategories, 'related Categories');
 								if(intval($row['include_exclude_category']) == 0) { // categories will be excluded
 									$catOK[] = true; 
 									
@@ -347,39 +350,41 @@ class tx_commercecoupons_lib {
 					}
 				}
 							
-				if(($row['limit_start'] <= $calculationPrice['gross'] || $row['limit_start'] == 0)){	
-					$couponData = array();
-					# $calculationPrice = $this->calculatePriceForRabatt();
-					// everything OK; set Information
-					if($row['type'] == 'percent'){
-						if($row['limit_end']&&$row['limit_end'] < $calculationPrice['gross']*($row['amount_percent']/100)){
-							
-							$couponData['price_net']   = 	- intval($row['limit_end'])/1.19;		// *($row['amount_percent']/10))/1.19;		// quotient was 100 originally
-							$couponData['price_gross'] = 	- intval($row['limit_end']);		// *($row['amount_percent']/10)));
-						}else{
-							
-							if(count($artPrice) > 0) {
-								$couponData['price_net']   = 	- intval($artPrice['net']*($row['amount_percent']/100));
-								$couponData['price_gross'] =  - intval($artPrice['gross']*($row['amount_percent']/100));
-							} else {
-								$couponData['price_net']   = 	- intval($calculationPrice['net']*($row['amount_percent']/100)); ## - $row['limit_end'];		//
-								$couponData['price_gross'] =  - intval($calculationPrice['gross']*($row['amount_percent']/100)); ##  - $row['limit_end'];			//
+				if(in_array(true, $catOK)) {
+					if(($row['limit_start'] <= $calculationPrice['gross'] || $row['limit_start'] == 0)){	
+						$couponData = array();
+						# $calculationPrice = $this->calculatePriceForRabatt();
+						// everything OK; set Information
+						if($row['type'] == 'percent'){
+							if($row['limit_end']&&$row['limit_end'] < $calculationPrice['gross']*($row['amount_percent']/100)){
+								
+								$couponData['price_net']   = 	- intval($row['limit_end'])/1.19;		// *($row['amount_percent']/10))/1.19;		// quotient was 100 originally
+								$couponData['price_gross'] = 	- intval($row['limit_end']);		// *($row['amount_percent']/10)));
+							}else{
+								
+								if(count($artPrice) > 0) {
+									$couponData['price_net']   = 	- intval($artPrice['net']*($row['amount_percent']/100));
+									$couponData['price_gross'] =  - intval($artPrice['gross']*($row['amount_percent']/100));
+								} else {
+									$couponData['price_net']   = 	- intval($calculationPrice['net']*($row['amount_percent']/100)); ## - $row['limit_end'];		//
+									$couponData['price_gross'] =  - intval($calculationPrice['gross']*($row['amount_percent']/100)); ##  - $row['limit_end'];			//
+								}
+								
 							}
-							
+						} else {
+							$couponData['price_net']   = -$row['amount_net'];
+							$couponData['price_gross']   = -$row['amount_gross'];
 						}
+	
+						$couponData['articleId'] = $row['article'];
+						$couponData['record'] = $row;
+						$couponData['code'] = $row['code'];
+						$couponData['uid'] = $row['uid'];
+						$couponData['has_articles'] = $row['has_articles'];
 					} else {
-						$couponData['price_net']   = -$row['amount_net'];
-						$couponData['price_gross']   = -$row['amount_gross'];
+						$couponData =  ERROR_COUPON_LOWORDERVALUE;
 					}
-
-					$couponData['articleId'] = $row['article'];
-					$couponData['record'] = $row;
-					$couponData['code'] = $row['code'];
-					$couponData['uid'] = $row['uid'];
-					$couponData['has_articles'] = $row['has_articles'];
-				} else {
-					$couponData =  ERROR_COUPON_LOWORDERVALUE;
-				}
+				}  // end if(in_array(true, $catOK)) 
 			} 
 		}
 		
