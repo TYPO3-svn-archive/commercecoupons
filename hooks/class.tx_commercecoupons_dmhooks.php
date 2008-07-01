@@ -44,6 +44,14 @@ class tx_commercecoupons_dmhooks {
 				}
 			}
 		}
+		if ($table = 'tx_commercecoupons_articles')	{
+			foreach($fieldArray as $key => $value) {
+				if($key == 'price_net' || $key == 'price_gross') {
+					$value = $value * 100;
+					$fieldArray[$key] = (int)$value;
+				}
+			}
+		}
 		
 		if ($table != 'tx_commercecoupons_coupons' || strtolower(substr($id, 0, 3)) == 'new')	{
 			return;

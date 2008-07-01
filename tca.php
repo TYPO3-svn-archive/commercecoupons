@@ -258,6 +258,28 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				'wizards' => Array(
 		            '_PADDING' => 1,
 	    	        '_VERTICAL' => 1,
+	    	        'edit' => Array(
+         				'type' => 'popup',
+         				'title' => 'Edit usergroup',
+         				'script' => 'wizard_edit.php',
+         				'icon' => 'edit2.gif',
+         				'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+     				),
+					/*
+	        	    'edit' => Array(
+						'type' => 'script',
+						'title' => 'Edit article',
+						'script' => 'wizard_edit.php',
+						'popup_onlyOpenIfSelected' => 0,
+						'icon' => 'edit2.gif',
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+						'params' => Array(
+                    		'table' => 'tx_commercecoupons_articles',
+                       		'pid' => '###CURRENT_PID###',
+                       		'setValue' => 'set',
+                 		),
+					),*/
+	    	        
 	    	        'add' => Array(
 	    	        	'type' => 'script',
 						'title' => 'add article',
@@ -270,14 +292,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
                        		'setValue' => 'set',
                  		),
 					),
-	        	    'edit' => Array(
-						'type' => 'script',
-						'title' => 'Edit article',
-						'script' => 'wizard_edit.php',
-						'popup_onlyOpenIfSelected' => 1,
-						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
+					
            		),
 			),
 		),
@@ -345,20 +360,30 @@ $TCA["tx_commercecoupons_articles"] = Array (
 	   	'price_net' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:commerce/locallang_db.php:tx_commerce_order_articles.price_net',
-			'config' => Array (
+			/*'config' => Array (
 				'type' => 'input',
 				'size' => '6',
-				'eval' => 'integer',
-			)
+				'eval' => 'double2',
+			)*/
+			"config" => Array (
+				"type" => "user",
+				"userFunc" => "tx_commercecoupons_fields->calculate_price",
+			),
+			
 		),
 		'price_gross' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:commerce/locallang_db.php:tx_commerce_order_articles.price_gross',
-			'config' => Array (
+			/*'config' => Array (
 				'type' => 'input',
 				'size' => '6',
-				'eval' => 'integer',
-			)
+				'eval' => 'double2',
+			)*/
+			
+			"config" => Array (
+				"type" => "user",
+				"userFunc" => "tx_commercecoupons_fields->calculate_price",
+			),
 		),
 		/*'amount' => Array (
 			'exclude' => 1,

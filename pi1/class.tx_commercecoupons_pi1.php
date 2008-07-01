@@ -145,7 +145,13 @@
 			$errorLink = $this->pi_linkToPage($this->pi_getLL('errorLink'),$this->conf['errorPID'],$target = '',$urlParameters = array());
  			$markerArray['###ERRORLINK###'] = $this->pi_getLL('errorLinkBefore').$errorLink.$this->pi_getLL('errorLinkAfter');
  			$markerArray['###HEADER###'] = $this->pi_getLL('errorHeader');
- 			$markerArray['###BACKLINK###'] = '<a href="javascript:history.back();" title="'.$this->pi_getLL('back').'">'.$this->pi_getLL('back').'</a>';
+ 			// the use of the backlink can now be de/activated by TYPOscript
+ 			#debug($this->conf, 'conf array in pi1');
+ 			if($this->conf['useBacklink'] == 0) {
+ 				$markerArray['###BACKLINK###'] = '';
+ 			} else {
+ 				$markerArray['###BACKLINK###'] = '<a href="javascript:history.back();" title="'.$this->pi_getLL('back').'">'.$this->pi_getLL('back').'</a>';
+ 			}
 		
 			$markerArray['###COUPON_ERROR_TEXT###'] = $this->pi_getLL('couponError' . $codeData);
 			#$markerArray['###COUPON_ERROR_TEXT###'] = $this->cObj->cObjGetSingle($this->conf['errorText'],$this->conf['errorText.']);
@@ -228,7 +234,11 @@
 			$markerArray = $myArticle->getMarkerArray($this->cObj,array(),'article_');
 
 			//$markerArray['###LINKTOBASKET###'] = $this->pi_getPageLink(16);
-			$markerArray['###LINKTOBASKET###'] = $this->pi_getPageLink($this->conf['basketPid']);
+			if($this->conf['useBacklink'] == 0) {
+				$markerArray['###LINKTOBASKET###'] = '';
+			} else {
+				$markerArray['###LINKTOBASKET###'] = $this->pi_getPageLink($this->conf['basketPid']);
+			}
 			$markerArray['###USE_COUPONLINK###'] = $this->pi_getPageLink($this->conf['useCouponPid'],'',array('tx_pljarticleapp_pi1[user_comes_from_redeemcoupon]'=>1));
 			$markerArray['###DELETE_ARTICLE###'] = $this->pi_getPageLink($this->conf['basketPid'],'',array('tx_commerce_pi1[artAddUid]['.$myArticle->uid.'][count]'=>0));
 			$markerArray['###GO_SHOPPING###'] = $this->pi_getPageLink($this->conf['basketPid']);
@@ -242,7 +252,11 @@
 
 			$priceSearch_form = intval(($coupon['price_net'] - ($coupon['price_net']*0.2))/100)*(-1); // -20%
 			$priceSearch_to = intval(($coupon['price_net'] + ($coupon['price_net']*0.2))/100)*(-1); // +20%
-			$markerArray['###LINKTOBASKET###'] = '<a href="'.$this->pi_getPageLink($this->conf['basketPid']).'" title="'.$this->pi_getLL('backToBasket').'">'.$this->pi_getLL('backToBasket').'</a>';
+			if($this->conf['useBacklink'] == 0) {
+				$markerArray['###LINKTOBASKET###'] = '';
+			} else {
+				$markerArray['###LINKTOBASKET###'] = '<a href="'.$this->pi_getPageLink($this->conf['basketPid']).'" title="'.$this->pi_getLL('backToBasket').'">'.$this->pi_getLL('backToBasket').'</a>';
+			}
 			$markerArray['###SUMME###'] = tx_moneylib::format($coupon['price_net']*(-1),'EUR');
 			$markerArray['###PRICE_SEARCH_LINK###'] = $this->pi_getPageLink($this->conf['priceSearchPid'],'',array('tx_commercelistview_pi1[price]'=>$priceSearch_form.'00_'.$priceSearch_to.'00_'.$priceSearch_form.'-'.$priceSearch_to.' Euro','tx_commercelistview_pi1[showResults]'=>1));
 			$markerArray['###MAIN_COUPON_WITHOUT_ARTICLES_TEXT###'] = $this->cObj->cObjGetSingle($this->conf['couponWithoutArticleText'],$this->conf['couponWithoutArticleText.']);

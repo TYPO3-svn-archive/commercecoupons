@@ -1,4 +1,14 @@
 (add new changes on top of this file)
+
+08-07-01 Ralf Merz <ralf@ralf-merz.de>
+	* related article now editable in  popup with wizard
+	* started writing manual, some parts are still in German
+
+08-06-30 Ralf Merz <ralf@ralf-merz.de>
+	* added new TYPOscript parameter "useBacklink" 1 or 0
+	* cohooks sends an email to pi3.adminmail.mailto, if a coupon reaches count=0
+	* related article now stores double values as price_net and price_gross
+
 08-01-31 Joerg Sprung <joerg.sprung @eddata.de>
     * Fixed bug with calculating Price in checkout listing
     * Fixed bug with valuevoupons canging their value while changing amount of regular articles in basket

@@ -16,6 +16,8 @@ plugin.tx_commercecoupons_pi1 {
 	useCouponPid = {$plugin.tx_commercecoupons_pi1.useCouponPid}
 	basketPid = {$plugin.tx_commercecoupons_pi1.basketPid}
 	errorPID = {$plugin.tx_commercecoupons_pi1.errorPID}
+	
+	useBacklink = {$plugin.tx_commercecoupons_pi1.useBacklink}
 
 	showCouponFormText = RECORDS
 	showCouponFormText {

@@ -98,7 +98,7 @@ class tx_commerce_coupons extends t3lib_SCbase {
 	var $include_once=array();	// Array, where files to include is accumulated in the init() function
 	
 	// by Ralf
-	var $error_wrong_cArtId='';		// Error Message, get�s filled if a no-int value is input in the couponArticleId field
+	var $error_wrong_cArtId='';		// Error Message, gets filled if a no-int value is input in the couponArticleId field
 	/**
 	 *
 	 */

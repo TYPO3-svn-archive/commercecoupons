@@ -127,7 +127,7 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 				
 		## check for not-allowed quantity and minimum order value
 		foreach($basket->basket_items as $item => $itemObj){
-			if(intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponNormalType']) || intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponRelatedType'])){	// so itï¿½s not normalTYPE, payment or delivery
+			if(intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponNormalType']) || intval($itemObj->article->article_type_uid) == intval($pObj->conf['couponRelatedType'])){	// so it´s not normalTYPE, payment or delivery
 				if(intval($itemObj->quantity) != 1){
 					unset($basket->basket_items[$item]);
 					unset($GLOBALS['TSFE']->fe_user->sesData['coupons']);

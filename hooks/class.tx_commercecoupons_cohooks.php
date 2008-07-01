@@ -117,6 +117,8 @@ class tx_commercecoupons_cohooks {
 	 */
 	function postFinish(&$basket, $checkout,$couponId='')	{
 	
+		#debug($basket, 'basket');
+		#debug($checkout, 'checkout');
 			$GLOBALS['TSFE']->fe_user->setKey('ses','order_finished','done');
 		
 		// detect the uid of article type "coupon"
@@ -162,7 +164,10 @@ class tx_commercecoupons_cohooks {
 					$debugArray[] = $coupon;
 		
 					if($newCount == 0){
+						#debug($coupon, 'coupon reached 0');
 						$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_commercecoupons_coupons', 'uid = '.$coupon['uid'], array('hidden' => 1, 'count' => $newCount));
+						// send mail (specified by typoscript) that Coupon count has reached 0
+						$this->sendCountNotification($checkout->conf['adminmail.']['mailto'], $checkout->conf['couponNotificationSubject'], $coupon['code']);
 					}
 					
 					if($newCount > 0){
@@ -324,7 +329,6 @@ class tx_commercecoupons_cohooks {
 		}
 #		} // look above, beginning if is still there
 	}
-	
 
 	function makeRandCode($length,$type="numeric"){
 		// RANDOM KEY PARAMETERS
@@ -352,6 +356,25 @@ class tx_commercecoupons_cohooks {
 		  $randkey .= substr($keys, rand(0, $max), 1);
 		}
 		return $randkey;	
+	}
+	
+	/**
+	 * sends an plain-Text email if a coupon reaches count = 0
+	 * @param string mailTo is set in TS commerce_pi3.adminmail.mailto
+	 * @param string subject Subject of the email, set by TS in commerce_pi3
+	 * @param string couponCode Coupon code which has been cashed
+	 * 
+	 * TODO: Maybe use an HTML or TEXT Template-File here...
+	 */
+	function sendCountNotification($mailTo, $subject, $couponCode) {
+		// send mail...
+		#$email = 'ralf@ralf-merz.de';
+		$email = $mailTo;
+		$subject = $subject.' Code: '.$couponCode;
+		$message = 'Der Gutschein mit dem Code '.$couponCode.' hat nun die Anzahl "0" und wurde deaktiviert.';
+		$headers = 'From: order@schutzgeld.de';
+		t3lib_div::plainMailEncoded($email,$subject,$message,$headers='',$enc='',$charset='',$dontEncodeHeader=false);
+		#debug($email, 'mail should have been sent to');
 	}
 	
 }

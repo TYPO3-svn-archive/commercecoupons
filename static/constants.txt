@@ -18,6 +18,8 @@ plugin.tx_commercecoupons_pi1 {
 	articleAddUID = 2510
 	errorTextUID = 2509
 	couponWithoutArticleTextUID = 2510
+	
+	useBacklink = 1
 }
 
 /* maybe use this as standard
