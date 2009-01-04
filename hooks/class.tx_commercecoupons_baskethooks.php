@@ -70,14 +70,14 @@ class tx_commercecoupons_baskethooks extends tx_commerce_basic_basket {	// exten
 		if(is_array($article_id)){
 			$deleteAllCoupons = false;
 			foreach($article_id as $art => $aObj){
-				if(intval($aObj['count']) == 0 || intval($aObj['count']) > 1){
-					if(is_array($coupons)) {
+				if(intval($aObj['count']) == 0 || intval($aObj['count']) > 1 && is_array($coupons)){
+					//if(is_array($coupons)) {
 						foreach($coupons as $coupon) {
 							if(isset($coupon['_addedArticles'][$art])) {
 								$deleteAllCoupons = true;
 							}
 						}
-					}
+					//}
 				}
 			}
 			if($deleteAllCoupons) {
