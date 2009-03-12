@@ -1,4 +1,9 @@
 (add new changes on top of this file)
+09-03-12 Ralf Merz <ralf@ralf-merz.de>
+	* fixed Bug in class.tx_commercecoupons_dmhooks.php, where there were 2 if-clauses with "=" instead of "=="
+	  thanks to Markus Kleinhenz for reporting.
+	  This Bug makes prices multiplied by 100 in commerce > 0.11.4
+
 08-09-17
 	* removed leading slash in form action of pi1 tmpl
 

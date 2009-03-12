@@ -36,7 +36,7 @@
 class tx_commercecoupons_dmhooks {
 	function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, $pObj)	{
 		// check if we have to do something
-		if ($table = 'tx_commercecoupons_coupons')	{
+		if ($table == 'tx_commercecoupons_coupons')	{
 			foreach($fieldArray as $key => $value) {
 				if($key == 'limit_start' || $key == 'limit_end' || $key == 'amount_net' || $key == 'amount_gross') {
 					$value = $value * 100;
@@ -44,7 +44,7 @@ class tx_commercecoupons_dmhooks {
 				}
 			}
 		}
-		if ($table = 'tx_commercecoupons_articles')	{
+		if ($table == 'tx_commercecoupons_articles')	{
 			foreach($fieldArray as $key => $value) {
 				if($key == 'price_net' || $key == 'price_gross') {
 					$value = $value * 100;
