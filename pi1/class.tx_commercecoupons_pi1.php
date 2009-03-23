@@ -24,7 +24,7 @@
 /**
  * Plugin 'Coupon Handling' for the 'commerce_coupons' extension.
  *
- * @author	Volker Graubaum  <vg@e-netconsulting.de>
+ * @author	Volker Graubaum  <vg@e-netconsulting.de>, Ralf Merz <ralf@ralf-merz.de>
  */
 
 /**
@@ -71,6 +71,12 @@
 			case 'addCoupon' :
 				$content = $this->addCoupon();
 			break;
+			// new step here: returns true or false, can be used for ajax
+			// inspired by David RŸhr
+			case 'addCouponByAjax' :	
+				$res = $this->addCoupon();
+				return $res;
+			break;
 		}
 
 		#$this->debug('am ende der tx_commercecoupons_pi1::main() ');
@@ -113,11 +119,18 @@
 
  		if(is_array($codeData)){
  			
+ 			if($this->step == 'addCouponByAjax') {		// return true (or false), so do the rest in your ajax function
+ 				return true;
+ 			}
  			
  			return $this->addedCoupon($codeData);
  			
  			
  		} else{
+ 			
+ 			if($this->step == 'addCouponByAjax') {		// return true (or false), so do the rest in your ajax function
+ 				return false;
+ 			}
  			
  			#debug($this->piVars,'__ERROR__');
  			#debug($this->conf, '__CONF-ARRAY__');

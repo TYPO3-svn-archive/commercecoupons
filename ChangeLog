@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+09-03-23 Ralf Merz <ralf@ralf-merz.de>
+	* added new case / step to pi1: also calls the addCoupon function, but instead of returning content, it returns
+	  true or false, so this can be used for calling pi1 by an ajax function, for example.
+
 09-03-12 Ralf Merz <ralf@ralf-merz.de>
 	* fixed Bug in class.tx_commercecoupons_dmhooks.php, where there were 2 if-clauses with "=" instead of "=="
 	  thanks to Markus Kleinhenz for reporting.
