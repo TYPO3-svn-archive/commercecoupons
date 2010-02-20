@@ -19,6 +19,7 @@
                 'syscoupons' => array ('type'=>'4'),
                 'syscoupons_special' => array ('type'=>'5'),
                 'syscoupons_use' => array ('type'=>'6'),
+        		'syscoupons_ean' => array ('type'=>'7'),
         ),
 	);
 	

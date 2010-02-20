@@ -21,6 +21,8 @@ CREATE TABLE tx_commercecoupons_coupons (
 	has_articles tinyint(4)  DEFAULT '0' NOT NULL,
 	related_articles int(11)  DEFAULT '0' NOT NULL,
 	article blob NOT NULL,
+	EAN13_countryprefix varchar(3) DEFAULT '' NOT NULL,
+	EAN13_companynumber varchar(5) DEFAULT '' NOT NULL,
 	count int(11) DEFAULT '0' NOT NULL,
 	type varchar(7) DEFAULT '' NOT NULL,
 	newpid int(11) DEFAULT '0' NOT NULL,
@@ -28,9 +30,10 @@ CREATE TABLE tx_commercecoupons_coupons (
 	limit_end int(11) DEFAULT '0' NOT NULL,
 	order_id varchar(80) DEFAULT '' NOT NULL,
 	include_exclude_category tinyint(3) DEFAULT '0' NOT NULL,
-    related_categories blob NOT NULL
-	
-	
+    related_categories varchar(255) DEFAULT '' NOT NULL,
+    own_field tinyint(3) DEFAULT '0' NOT NULL,
+    button_label varchar(100) DEFAULT '' NOT NULL,	
+	description varchar(255) DEFAULT '' NOT NULL	
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );
@@ -93,3 +96,4 @@ INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('3', '0', 'deliv
 INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('4', '0', 'syscoupons');
 INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('5', '0', 'syscoupons_special');
 INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('6', '0', 'syscoupons_use');
+INSERT INTO tx_commerce_article_types (uid, pid, title) VALUES ('7', '0', 'syscoupons_ean');

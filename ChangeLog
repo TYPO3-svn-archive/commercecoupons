@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+09-04-22 Ingo Schmitt <is@marketing-factory.de>
+* Added showCurreny inheritance from commerce to mailHooks
+* Raised Version to 0.2.1
+
 09-03-23 Ralf Merz <ralf@ralf-merz.de>
 	* added new case / step to pi1: also calls the addCoupon function, but instead of returning content, it returns
 	  true or false, so this can be used for calling pi1 by an ajax function, for example.

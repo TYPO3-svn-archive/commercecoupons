@@ -2,11 +2,12 @@
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 require_once(t3lib_extMgm::extPath('commerce_coupons') .'class.tx_commercecoupons_fields.php');
-
+$commerce_coupons_conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['commerce_coupons']);
+$eanArticleUid = $commerce_coupons_conf['eanArticleUid'];
 $TCA["tx_commercecoupons_coupons"] = Array (
 	"ctrl" => $TCA["tx_commercecoupons_coupons"]["ctrl"],
 	"interface" => Array (
-		"showRecordFieldList" => "deleted,hidden,starttime,endtime,fe_group,code,amount,article,count,type,limit_start,limit_end,newpid,include_exclude_category,related_categories"
+		"showRecordFieldList" => "deleted,hidden,starttime,endtime,fe_group,code,amount,article,count,type,limit_start,limit_end,newpid,include_exclude_category,own_field,button_label,description,related_categories"
 	),
 	"feInterface" => $TCA["tx_commercecoupons_coupons"]["feInterface"],
 	"columns" => Array (
@@ -83,7 +84,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"type" => "input",	
 				"size" => "30",	
 				"max" => "100",	
-				"eval" => "required,trim",
+				"eval" => "required,trim"
 			)
 		),
 		/*"first_name" => Array (		
@@ -138,7 +139,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 			'config' => Array (
 				'type' => 'select',
 				'foreign_table' => 'tx_commerce_articles',
-				'foreign_table_where' => 'AND tx_commerce_articles.sys_language_uid IN (-1,0) AND tx_commerce_articles.article_type_uid IN (4,5,6)',
+				'foreign_table_where' => 'AND tx_commerce_articles.sys_language_uid IN (-1,0) AND tx_commerce_articles.article_type_uid IN (4,5,6,7)',
 			)
 		),
 		/*"order_id" => Array (		
@@ -180,6 +181,26 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				'default' => 'money',	
 			)
 		),
+		"EAN13_countryprefix" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.EAN13_countryprefix",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+				"max" => "3",
+			),
+			'displayCond' => 'FIELD:article:=:'.$eanArticleUid,
+		),		
+		"EAN13_companynumber" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.EAN13_companynumber",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+				"max" => "5",
+			),
+			'displayCond' => 'FIELD:article:=:'.$eanArticleUid,
+		),			
 		'newpid' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.newpid',
@@ -213,25 +234,52 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"default" => 1,
 			)
 		),
-		"related_categories" => Array (
+		'related_categories' => Array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.related_categories',
+			'config' => Array (
+				'type' => 'passthrough',
+	            'form_type' => 'user',
+	            'userFunc' => 'EXT:commerce/treelib/class.tx_commerce_tcefunc.php:&tx_commerce_tceFunc->getSingleField_selectCategories',
+	            'allowProducts' => false,
+	            'treeViewBrowseable' => true,
+	            'size' => 30,
+	            'substituteRealValues' => true,
+	            'autoSizeMax' => 30,
+	            'minitems' => 0,
+	            'maxitems' => 50,
+	            'eval' => 'required',
+			),			
+		),
+		
+		"own_field" => Array (
 			"exclude" => 1,
-			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.related_categories",
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.own_field",
 			"config" => Array (
-				"type" => "group",
-				'internal_type' => 'db',
-				'allowed' => 'tx_commerce_categories',
-				'form_type' => 'user',
-				'userFunc' => 'tx_graytree_tceFunc->getSingleField_selectTree',
-				'treeView' => 1,
-				'treeClass' => 'tx_commerce_tceFunc_categoryTree',
-				'leafInfoArray' => Array (
-				),
-				'size' => 15,
-				'autoSizeMax' => 10,
-				'minitems' => 0, 
-				'maxitems' => 100,
+				"type" => "check",
+				"default" => 1,
 			)
 		),		
+		"button_label" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.button_label",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+				"max" => "100",	
+				"eval" => "trim"
+			)
+		),			
+		"description" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.description",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+				"max" => "255",	
+				"eval" => "trim"
+			)
+		),			
 		"has_articles" => Array (
 		    "exclude" => 1,
     	   	"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.has_articles",
@@ -299,7 +347,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 	),
 	"types" => Array (
 		"0" => Array("showitem" => "
-		    ---div---;Coupon,hidden;;1;;1-1-1, code, amount_net,amount_gross, article, count, type, amount_percent, order_id,  newpid, limit_start, limit_end, include_exclude_category, related_categories, has_articles,first_name,last_name,
+		    ---div---;Coupon,hidden;;1;;1-1-1, code, amount_net, amount_gross, article, EAN13_countryprefix, EAN13_companynumber, count, type, amount_percent, order_id,  newpid, limit_start, limit_end, include_exclude_category, related_categories, own_field, button_label, description, has_articles, first_name, last_name,
 		    ---div---;Artikel,related_articles;;;;1-1-1"
 		)
 	),

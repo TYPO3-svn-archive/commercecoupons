@@ -41,7 +41,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 		"dynamicConfigFile" => t3lib_extMgm::extPath($_EXTKEY)."tca.php",
 		"iconfile" => t3lib_extMgm::extRelPath($_EXTKEY)."res/tx_commercecoupons_coupons.gif",
 		'dividers2tabs' => 1,
-		'requestUpdate' => 'type',
+		'requestUpdate' => 'type,article',
 	),
 	"feInterface" => Array (
 		"fe_admin_fieldList" => "deleted, hidden, starttime, endtime, fe_group, code, amount, article, count, type, limit_start, limit_end,first_name,last_name,dedication,related_articles",

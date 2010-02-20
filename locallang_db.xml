@@ -16,6 +16,8 @@
             <label index="tx_commercecoupons_coupons.amount_gross">Amount gross</label>
             <label index="tx_commercecoupons_coupons.amount_percent">Amount percent</label>
             <label index="tx_commercecoupons_coupons.article">Article</label>
+            <label index="tx_commercecoupons_coupons.EAN13_countryprefix">EAN-13 Country Prefix</label>
+            <label index="tx_commercecoupons_coupons.EAN13_companynumber">EAN-13 Company Number</label>             
             <label index="tx_commercecoupons_coupons.count">Number</label>
             <label index="tx_commercecoupons_coupons.type.I.0">Money</label>
             <label index="tx_commercecoupons_coupons.type.I.1">Percent</label>
@@ -38,6 +40,9 @@
             <label index="tx_commerce_orders.activate_coupons">Activate coupons</label>
             <label index="tx_commercecoupons_coupons.include_exclude_category">include or exclude selected categories</label>
             <label index="tx_commercecoupons_coupons.related_categories">Choose categories to in- or exclude</label>
+            <label index="tx_commercecoupons_coupons.own_field">own field</label>
+            <label index="tx_commercecoupons_coupons.button_label">button label</label>
+            <label index="tx_commercecoupons_coupons.description">Description</label>
         </languageKey>
         <languageKey index="de" type="array">
             <label index="tx_commercecoupons_coupons">Gutscheine</label>
@@ -48,6 +53,8 @@
             <label index="tx_commercecoupons_coupons.amount_gross">Betrag brutto</label>
             <label index="tx_commercecoupons_coupons.amount_percent">Betrag Prozent</label>
             <label index="tx_commercecoupons_coupons.article">Artikel</label>
+            <label index="tx_commercecoupons_coupons.EAN13_countryprefix">EAN-13 Länderpräfix</label>
+            <label index="tx_commercecoupons_coupons.EAN13_companynumber">EAN-13 Unternehmensnummer</label>
             <label index="tx_commercecoupons_coupons.count">Anzahl</label>
             <label index="tx_commercecoupons_coupons.type.I.0">Geldwert</label>
             <label index="tx_commercecoupons_coupons.type.I.1">Prozentwert</label>
@@ -68,6 +75,9 @@
             <label index="tx_commerce_orders.activate_coupons">Gutscheine aktivieren</label>
             <label index="tx_commercecoupons_coupons.include_exclude_category">Kategorien ausschliessen?</label>
             <label index="tx_commercecoupons_coupons.related_categories">Ein- oder auszuschliessende Kategorien</label>
+            <label index="tx_commercecoupons_coupons.own_field">eigenes Feld</label>
+            <label index="tx_commercecoupons_coupons.button_label">Submit Label</label>
+            <label index="tx_commercecoupons_coupons.description">Beschreibung</label>
         </languageKey>
     </data>
     <orig_hash type="array">
