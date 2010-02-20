@@ -20,20 +20,20 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"default" => "0"
 			)
 		),
-		'newpid' => Array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:commerce_coupons/locallang_db.php:tx_commerce_coupons.pid',
-			'config' => Array (
-				'type' => 'select',
-				'foreign_table' => 'pages',
-				'itemsProcFunc' =>'user_couponsedit_func->coupons_status',
-				
+#		'newpid' => Array (
+#			'exclude' => 1,
+#			'label' => 'LLL:EXT:commerce_coupons/locallang_db.php:tx_commerce_coupons.pid',
+#			'config' => Array (
+#				'type' => 'select',
+#				'foreign_table' => 'pages',
+#				'itemsProcFunc' =>'user_couponsedit_func->coupons_status',
+#				
 				/**
 				 * Dumme sql, for selecting nothing
-				 */
-				#'foreign_table_where' => 'AND -1 = 1'
-			)
-		),
+#				 */
+#				#'foreign_table_where' => 'AND -1 = 1'
+#			)
+#		),
 
 		"starttime" => Array (		
 			"exclude" => 1,
@@ -43,8 +43,8 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"size" => "8",
 				"max" => "20",
 				"eval" => "date",
-
-				"checkbox" => "0"
+				"checkbox" => "0",
+				"default" => "0"
 			)
 		),
 		"endtime" => Array (		
@@ -160,8 +160,8 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 			"config" => Array (
 				"type" => "input",	
 				"size" => "30",	
-				"checkbox" => "0",
-				"default" => "0",
+				/* "checkbox" => "0", */
+				"default" => "1",
 				"eval" => "required,integer",
 			)
 		),
@@ -200,7 +200,8 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"max" => "5",
 			),
 			'displayCond' => 'FIELD:article:=:'.$eanArticleUid,
-		),			
+		),
+					
 		'newpid' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.newpid',
@@ -210,6 +211,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				'itemsProcFunc' =>'user_couponsedit_func->coupon_status',
 			)
 		),
+		
 		"limit_start" => Array (		
 			"exclude" => 1,		
 			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.limit_start",		
@@ -232,6 +234,9 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 			"config" => Array (
 				"type" => "check",
 				"default" => 1,
+				"items" => array(
+					array('LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.include_exclude_category_label', '')
+				)
 			)
 		),
 		'related_categories' => Array (
@@ -251,7 +256,8 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 	            'eval' => 'required',
 			),			
 		),
-		
+		/* Ralf Merz 2010-02-20: 
+		 commented out the next 3 fields: Kneipp specific?
 		"own_field" => Array (
 			"exclude" => 1,
 			"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.own_field",
@@ -280,6 +286,7 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 				"eval" => "trim"
 			)
 		),			
+		*/
 		"has_articles" => Array (
 		    "exclude" => 1,
     	   	"label" => "LLL:EXT:commerce_coupons/locallang_db.php:tx_commercecoupons_coupons.has_articles",

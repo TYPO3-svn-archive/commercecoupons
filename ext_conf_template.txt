@@ -1,0 +1,2 @@
+# cat=basic//1; type=int+; label=EAN Article UID: The UID of the EAN13 Article
+eanArticleUid = 1 

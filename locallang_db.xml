@@ -39,6 +39,7 @@
             <label index="tx_commerce_orders.coupon_list">Coupon list</label>
             <label index="tx_commerce_orders.activate_coupons">Activate coupons</label>
             <label index="tx_commercecoupons_coupons.include_exclude_category">include or exclude selected categories</label>
+            <label index="tx_commercecoupons_coupons.include_exclude_category_label">If checked: mode is include, choose unchecked for exclude</label>
             <label index="tx_commercecoupons_coupons.related_categories">Choose categories to in- or exclude</label>
             <label index="tx_commercecoupons_coupons.own_field">own field</label>
             <label index="tx_commercecoupons_coupons.button_label">button label</label>
@@ -73,7 +74,8 @@
 			<label index="tx_commercecoupons_coupons.related_articles">Zugeordneter Wertartikel</label>
             <label index="tx_commerce_orders.coupon_list">Gutscheine</label>
             <label index="tx_commerce_orders.activate_coupons">Gutscheine aktivieren</label>
-            <label index="tx_commercecoupons_coupons.include_exclude_category">Kategorien ausschliessen?</label>
+            <label index="tx_commercecoupons_coupons.include_exclude_category">Kategorien ein- oder ausschliessen?</label>
+            <label index="tx_commercecoupons_coupons.include_exclude_category_label">Wenn an: Kategorie einschließen, wähle unchecked für ausschließen</label>
             <label index="tx_commercecoupons_coupons.related_categories">Ein- oder auszuschliessende Kategorien</label>
             <label index="tx_commercecoupons_coupons.own_field">eigenes Feld</label>
             <label index="tx_commercecoupons_coupons.button_label">Submit Label</label>

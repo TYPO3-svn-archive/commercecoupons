@@ -1,4 +1,12 @@
 (add new changes on top of this file)
+10-02-20 Ralf Merz <ralf@ralf-merz.de>
+* bugfixing and some small tca modifications.
+* Optimization of BE module labels, removed specific stuff from others
+* important: Version is running with the current Commerce Version in forge
+* make sure that only one coupon can be cached
+* New CouponType: EAN13, meant as family card etc. Thanks to Christian Ehret
+* Raised Version to 0.2.6
+
 09-04-22 Ingo Schmitt <is@marketing-factory.de>
 * Added showCurreny inheritance from commerce to mailHooks
 * Raised Version to 0.2.1
