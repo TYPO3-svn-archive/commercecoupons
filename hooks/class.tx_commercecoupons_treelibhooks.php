@@ -19,7 +19,8 @@ class tx_commercecoupons_treelibhooks {
 		$category->init($uid);
 		$category->load_data();
 
-		return $table . $uid . '|' . $category->get_title();;
+		#return $table . $uid . '|' . $category->get_title();
+		return $uid . '|' . $category->get_title();
 	}
 
 }
