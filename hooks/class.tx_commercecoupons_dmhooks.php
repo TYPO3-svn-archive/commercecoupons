@@ -44,6 +44,14 @@ class tx_commercecoupons_dmhooks {
 				}
 			}
 		}
+		// Ralf 2010-04-25
+		// clean up the chosen categories (no "," after last element)
+		if(isset($fieldArray['related_categories'])) {
+			$fieldArray['related_categories'] = t3lib_div::uniqueList($fieldArray['related_categories']);
+		}
+		#debug($fieldArray, 'fieldArray');
+		#die();
+		
 		if ($table == 'tx_commercecoupons_articles')	{
 			foreach($fieldArray as $key => $value) {
 				if($key == 'price_net' || $key == 'price_gross') {

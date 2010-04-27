@@ -7,6 +7,8 @@
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['commerce/pi2/class.tx_commerce_pi2.php']['generateBasketMarker'][] = 'EXT:commerce_coupons/hooks/class.tx_commercecoupons_baskethooks.php:tx_commercecoupons_baskethooks';
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['commerce/pi3/class.tx_commerce_pi3.php']['getListing'][] = 'EXT:commerce_coupons/hooks/class.tx_commercecoupons_colistinghooks.php:tx_commercecoupons_colistinghooks';
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['commerce/pi3/class.tx_commerce_pi3.php']['generateMail'][] = 'EXT:commerce_coupons/hooks/class.tx_commercecoupons_mailhooks.php:tx_commercecoupons_mailhooks';
+	//hook into category_tree processing
+	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['commerce/treelib/class.tx_commerce_treelib_tceforms.php']['processItemArrayForBrowseableTreeDefault'][] = 'EXT:commerce_coupons/hooks/class.tx_commercecoupons_treelibhooks.php:tx_commercecoupons_treelibhooks';
 	
 	t3lib_extMgm::addPItoST43($_EXTKEY,'pi1/class.tx_commercecoupons_pi1.php', '_pi1', 'list_type', 0);
 	

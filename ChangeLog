@@ -1,3 +1,13 @@
+10-04-27 Ralf Merz <ralf@ralf-merz.de>
+	* changes in tca.php to save related_categories without "tx_commerce_categories_"-prefix
+	* new hook for commerce treelib_tceforms in folder hooks/
+	* added hook in ext_localconf.php
+	* change my email address in ext_emconf.php and company name
+
+10-04-25 Ralf Merz
+* have to implement hook for processItemArrayForBrowseableTreeDefault
+* treelib/class.tx_commerc_treelib_tceforms.php
+
 (add new changes on top of this file)
 10-02-20 Ralf Merz <ralf@ralf-merz.de>
 * bugfixing and some small tca modifications.

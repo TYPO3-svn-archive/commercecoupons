@@ -248,12 +248,12 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 	            'userFunc' => 'EXT:commerce/treelib/class.tx_commerce_tcefunc.php:&tx_commerce_tceFunc->getSingleField_selectCategories',
 	            'allowProducts' => false,
 	            'treeViewBrowseable' => true,
-	            'size' => 30,
-	            'substituteRealValues' => true,
+	            'size' => 10,
+	            'substituteRealValues' => false,
 	            'autoSizeMax' => 30,
 	            'minitems' => 0,
 	            'maxitems' => 50,
-	            'eval' => 'required',
+	            #'eval' => 'required',
 			),			
 		),
 		/* Ralf Merz 2010-02-20: 
@@ -353,8 +353,12 @@ $TCA["tx_commercecoupons_coupons"] = Array (
 		),
 	),
 	"types" => Array (
-		"0" => Array("showitem" => "
+		/*"0" => Array("showitem" => "
 		    ---div---;Coupon,hidden;;1;;1-1-1, code, amount_net, amount_gross, article, EAN13_countryprefix, EAN13_companynumber, count, type, amount_percent, order_id,  newpid, limit_start, limit_end, include_exclude_category, related_categories, own_field, button_label, description, has_articles, first_name, last_name,
+		    ---div---;Artikel,related_articles;;;;1-1-1"
+		)*/
+		"0" => Array("showitem" => "
+		    ---div---;Coupon,hidden;;1;;1-1-1, code, amount_net, amount_gross, article, EAN13_countryprefix, EAN13_companynumber, count, type, amount_percent, order_id,  newpid, limit_start, limit_end, include_exclude_category, related_categories, has_articles, first_name, last_name,
 		    ---div---;Artikel,related_articles;;;;1-1-1"
 		)
 	),

@@ -30,7 +30,7 @@ CREATE TABLE tx_commercecoupons_coupons (
 	limit_end int(11) DEFAULT '0' NOT NULL,
 	order_id varchar(80) DEFAULT '' NOT NULL,
 	include_exclude_category tinyint(3) DEFAULT '0' NOT NULL,
-    related_categories varchar(255) DEFAULT '' NOT NULL,
+    related_categories VARCHAR(255) DEFAULT '' NOT NULL,
     own_field tinyint(3) DEFAULT '0' NOT NULL,
     button_label varchar(100) DEFAULT '' NOT NULL,	
 	description varchar(255) DEFAULT '' NOT NULL	
